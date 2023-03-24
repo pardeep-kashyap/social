@@ -1,0 +1,26 @@
+.layout-container {
+    padding: 0 var(--gutter);
+    padding-top: 60px;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.layout {
+    height: 100vh;
+    position: relative;
+}
+
+.layout footer {
+    position: sticky;
+    width: 100%;
+    color: var(--black);
+    height: var(--header-height);
+    background-color: var(--white);
+    bottom: 0;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+    display: flex;
+}
+
+footer button.MuiButtonBase-root {
+    flex: 1 1 0px;
+
+}

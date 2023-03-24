@@ -1,0 +1,315 @@
+@import url(./font/webfont.css);
+
+:root {
+  /* Font variable  */
+  --body-font-size: 14px;
+
+  /* Font family */
+  --heading-font-family: 'Poppins';
+  --primary-font-family: 'Poppins';
+
+  /* Font Weigth */
+  --font-weight-normal: normal;
+  --font-weight-Light: 300;
+  --font-weight-ExtraLight: 100;
+  --font-weight-bold: 600;
+
+  /* COLORS */
+  --black: #000000;
+  --dark-gray: #757894;
+  --gray: #dbe0e6;
+  --dashboardTileColor: #3E2B82;
+  ;
+  --white: #fff;
+  --color-body: var(--white);
+  --button-primary: #35b9f2;
+  --theme-color-primary: #c7026d;
+  --background-primary: #050620;
+  --theme: #c7026d;
+  --body-background: var(--white);
+
+  /* Size and spacing */
+  --container-max-width: 100%;
+  --gutter: 16px;
+  --header-height: 60px;
+  --footer-height: 70px;
+  --secondary-header-height: 110px;
+
+  --form-label-color: '#0D0822'
+
+    /* BREAKPOINTS */
+    --mobile-max: 480px;
+  --tablet-min: 768px;
+  --tablet-max: 991px;
+  --notebook-min: 992px;
+  --notebook-max: 1023px;
+}
+
+/* Reset CSS */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: inherit;
+  font-style: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+body {
+  font-weight: var(--font-weight-Light);
+  font-family: var(--primary-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background */
+  font-size: var(--body-font-size);
+  line-height: var(--body-font-size);
+  color: var(--gray);
+  /* color: var(--color-body); */
+  background: var(--body-background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--primary-font-family);
+}
+
+h1 {
+  font-size: 22px;
+  line-height: 23px;
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+h3 {
+  font-size: var(--body-font-size);
+  line-height: 20px;
+}
+
+h4 {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+body,
+html {
+  overscroll-behavior: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+button {
+  font-size: var(--body-font-size);
+  font-family: var(--primary-font-family);
+}
+
+
+[class*='icon-']::before,
+[class*='icon-']::after {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icon', sans-serif !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  padding: 0 var(--gutter);
+}
+
+.section-gap {
+  margin-bottom: var(--gutter);
+}
+
+.section-heading {
+  font-size: var(--body-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+.is-hidden {
+  display: none;
+}
+
+.disabled-btn {
+  background-color: #808080 !important;
+  cursor: not-allowed;
+}
+
+.render-html {
+  line-height: 20px;
+}
+
+/* Hide scrollbar by default */
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d1d1d1;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+/* Show scrollbar on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #b7b7b7;
+}
+
+/* When scrollbar is active (being dragged) */
+::-webkit-scrollbar-thumb:active {
+  background-color: #888;
+}
+
+/* When scrollbar is in a disabled state */
+::-webkit-scrollbar-thumb:disabled {
+  background-color: #e0e0e0;
+}
+
+/* Hide scrollbar when not needed */
+body:not(:hover) ::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0;
+}
