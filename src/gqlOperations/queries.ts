@@ -5,6 +5,7 @@ export const GET_QUOUTES_BY_USER = gql`query getQuotesByUser($by:ID!){
         text
     }, 
 }`;
+
 export const GET_ALL_USER = gql`query getAllUsers{
   users{
     id 
@@ -14,6 +15,14 @@ export const GET_ALL_USER = gql`query getAllUsers{
   }, 
 }`;
 
+export const GET_USER_BY_ID = gql`query getUserById($userid:ID!){
+    user(id:$userid){
+    id 
+    firstName
+    lastName 
+    email
+  }
+}`
 export const CREATE_USER = gql`mutation createUser($userNew:UserInput!){
     signUpUser(userNew:$userNew){
       id 

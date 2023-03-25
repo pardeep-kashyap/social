@@ -6,7 +6,7 @@ import './Messenger.css';
 import { useQuery } from "@apollo/client";
 import { GET_ALL_USER } from "../../gqlOperations/queries";
 import CancelIcon from '@mui/icons-material/Cancel';
-const socket = io('http://192.168.1.3:5000/');
+const socket = io('http://localhost:5000/');
 
 const Messenger = () => {
     const { data, error, loading } =

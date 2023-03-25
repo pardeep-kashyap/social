@@ -10,7 +10,7 @@ function NavBar() {
     const location = useLocation();
     return (
         <header className='NavBar'>
-            {
+            {/* {
                 location.pathname === '/' ? <div></div> : <IconButton
                     size="large"
                     aria-label="account of current user"
@@ -21,9 +21,8 @@ function NavBar() {
                 >
                     <ArrowBackIcon />
                 </IconButton>
-            }
+            } */}
             <img className='logo' src='/logo.png' />
-            <div></div>
         </header>
     );
 }

@@ -5,8 +5,14 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const Footer = () => {
+    const [currentUser, setCurrentUser] = useState<any>();
+    useEffect(() => {
+        setCurrentUser(JSON.parse(localStorage.getItem('userData') || '{}'));
+
+    }, [])
     return (<footer>
         <Link to={'/'}>
             <IconButton size="large"
@@ -32,7 +38,7 @@ const Footer = () => {
                 <QuestionAnswerIcon />
             </IconButton>
         </Link>
-        <Link to={'/profile'}>
+        <Link to={`/${currentUser?.id}`}>
             <IconButton size="large"
                 color="inherit">
                 <AccountCircleIcon />
