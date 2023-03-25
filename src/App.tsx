@@ -13,9 +13,11 @@ import SignIn from './pages/SignIn/SignIn'
 import Layout from './components/Layout/Layout'
 import { appMachine, MachineContext } from './machine'
 import { useMachine } from '@xstate/react'
-
+import Protected from './components/ProtectedRoute/ProtectedRoute'
+import UnProtected from './components/UnProtectedRoute/UnProtectedRoute'
+console.log("UnProtected");
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
+  uri: 'http://192.168.1.3:4000/',
   cache: new InMemoryCache(),
   headers: {
     authorization: localStorage.getItem('token') || ''
@@ -32,17 +34,37 @@ function App() {
         <ThemeProvider theme={THEME}>
           <BrowserRouter >
             <Routes>
-              <Route path={"/"} element={<Layout>
-                <Home />
-              </Layout>} />
-              <Route path={"/signIn"} element={<SignIn />} />
-              <Route path={"/signUp"} element={<SignUp />} />
-              <Route path={"/new"} element={<Layout>
-                <AddNew />
-              </Layout>} />
-              <Route path={"/message"} element={<Layout>
-                <Messenger />
-              </Layout>} />
+              <Route path={"/signIn"} element={
+                <UnProtected>
+                  <SignIn />
+                </UnProtected>
+              } />
+              <Route path={"/signUp"} element={
+                <UnProtected>
+                  <SignUp />
+                </UnProtected>
+              } />
+              <Route path={"/"} element={
+                <Protected>
+                  <Layout>
+                    <Home />
+                  </Layout>
+                </Protected>
+              } />
+              <Route path={"/new"} element={
+                <Protected>
+                  <Layout>
+                    <AddNew />
+                  </Layout>
+                </Protected>
+              } />
+              <Route path={"/message"} element={
+                <Protected>
+                  <Layout>
+                    <Messenger />
+                  </Layout>
+                </Protected>
+              } />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

@@ -26,8 +26,9 @@ const AddNew = () => {
         event.preventDefault();
         const userData = JSON.parse(localStorage.getItem('userData') || '{}')
         const formData = new FormData(event.currentTarget);
+        const { text } = event.currentTarget;
         sendToMachine(CREATE_POST, {
-            caption: formData.get('text'),
+            caption: text.value,
             images: [image],
             author: userData.id
         })

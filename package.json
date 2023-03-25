@@ -1,6 +1,7 @@
 {
   "name": "connect",
   "private": true,
+  "homepage": ".",
   "type": "module",
   "version": "0.0.0",
   "scripts": {

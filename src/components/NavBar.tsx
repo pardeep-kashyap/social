@@ -11,17 +11,7 @@ function NavBar() {
     return (
         <header className='NavBar'>
             {
-                location.pathname === '/' ? <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    color="inherit"
-                    className="more-icon"
-                    onClick={() => navigate('/new')}
-                >
-                    <AddBoxIcon />
-                </IconButton> : <IconButton
+                location.pathname === '/' ? <div></div> : <IconButton
                     size="large"
                     aria-label="account of current user"
                     aria-controls="menu-appbar"
@@ -32,25 +22,8 @@ function NavBar() {
                     <ArrowBackIcon />
                 </IconButton>
             }
-
-
-            <span className='logo'>
-                GlowNet
-            </span>
-            {
-                location.pathname !== '/message' ?
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        color="inherit"
-                        className="more-icon"
-                        onClick={() => navigate('/message')}
-                    >
-                        <ChatBubbleOutlineIcon />
-                    </IconButton> : <span>&nbsp;&nbsp;</span>
-            }
+            <img className='logo' src='/logo.png' />
+            <div></div>
         </header>
     );
 }

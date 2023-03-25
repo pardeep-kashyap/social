@@ -11,7 +11,7 @@ const Home = () => {
     return (
         <div className="post-container">
             {data?.posts.length ? data?.posts?.map((quote: any, index: number) => (
-                <Post {...quote} />
+                <Post {...quote} key={index + 'post'} />
             )) : <div style={{ textAlign: 'center' }}>Create New Post</div>
             }
         </div >

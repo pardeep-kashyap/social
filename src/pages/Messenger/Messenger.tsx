@@ -5,8 +5,8 @@ import io from 'socket.io-client';
 import './Messenger.css';
 import { useQuery } from "@apollo/client";
 import { GET_ALL_USER } from "../../gqlOperations/queries";
-
-const socket = io('http://localhost:5000/');
+import CancelIcon from '@mui/icons-material/Cancel';
+const socket = io('http://192.168.1.3:5000/');
 
 const Messenger = () => {
     const { data, error, loading } =
@@ -72,44 +72,58 @@ const Messenger = () => {
 
     return (
         <div className="messenger">
-            <div className="messenger-users">
-                <UserList {...data} onClick={onUserClick} selectedUser={receiverDetail} />
-            </div>
-            <div className="messager-chat-box">
-                {
-                    receiverDetail && <> <Box sx={{ height: '80px', display: 'flex' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: "5px" }}>
-                            <Avatar alt={receiverDetail?.firstName} src="/static/images/avatar/1.jpg" /> <span className="text-user-name">{receiverDetail?.firstName} {receiverDetail?.lastName}</span>
-                        </Box>
+            {
+                !receiverDetail ? <div className="messenger-users">
+                    <UserList {...data} onClick={onUserClick} selectedUser={receiverDetail} />
+                </div> :
+                    <div className="messager-chat-box">
+                        {
+                            receiverDetail && <>
+                                <Box sx={{
+                                    width: "100%",
+                                    justifyContent: "space-between",
+                                    height: '80px', display: 'flex'
+                                }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: "5px" }}>
+                                        <Avatar alt={receiverDetail?.firstName} src="/static/images/avatar/1.jpg" /> <span className="text-user-name">{receiverDetail?.firstName} {receiverDetail?.lastName}</span>
+                                    </Box>
+                                    <IconButton size="large"
+                                        color="inherit" onClick={() => setReceiverDetails(null)}>
+                                        <CancelIcon />
+                                    </IconButton>
+                                </Box>
 
-                    </Box>
-                        <div className="messager-chat-box-messages-list">
-                            <ChatMessages messages={chatMessages} receiverDetail={receiverDetail} currentUser={currentUser} />
-                        </div>
-                        <Box component="form" sx={{ mt: 1 }} className="messager-chat-box-messages-input" noValidate onSubmit={handleSubmit}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="message"
-                                name="message"
-                                autoComplete="message"
-                                placeholder="Message"
-                                autoFocus
-                                inputRef={valueRef}
-                            />
 
-                            <IconButton
-                                color="primary"
-                                type="submit"
+                                <div className="messager-chat-box-messages-list">
+                                    <ChatMessages messages={chatMessages} receiverDetail={receiverDetail} currentUser={currentUser} />
+                                </div>
+                                <Box component="form" sx={{ mt: 1 }} className="messager-chat-box-messages-input" noValidate onSubmit={handleSubmit}>
+                                    <TextField
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="message"
+                                        name="message"
+                                        autoComplete="message"
+                                        placeholder="Message"
+                                        autoFocus
+                                        inputRef={valueRef}
+                                    />
 
-                            >
-                                <SendIcon />
-                            </IconButton>
-                        </Box>
-                    </>
-                }
-            </div>
+                                    <IconButton
+                                        color="primary"
+                                        type="submit"
+
+                                    >
+                                        <SendIcon />
+                                    </IconButton>
+                                </Box>
+                            </>
+                        }
+                    </div>
+            }
+
+
         </div >
     )
 }
@@ -120,9 +134,9 @@ const ChatMessages = ({ messages = [], receiverDetail, currentUser }: { messages
     return messages.length ? <ul className="chat-messages">
         {messages.map((messageDetail: any, key: number) => <li key={key + '_messages'} className={messageDetail.sentBy == currentUser.id ? 'sent-by-you' : 'not-sent-by-you'}>
 
-            {messageDetail.sentBy !== currentUser.id && <Avatar alt={receiverDetail?.firstName} src="/static/images/avatar/1.jpg" />}
+            {messageDetail.sentBy !== currentUser.id && <Avatar sx={{ textTransform: 'capitalize' }} alt={receiverDetail?.firstName} src="/static/images/avatar/1.jpg" />}
             <span>{messageDetail.message}</span>
-            {messageDetail.sentBy === currentUser.id && <Avatar alt={currentUser.firstName} src="/static/images/avatar/1.jpg" />}
+            {messageDetail.sentBy === currentUser.id && <Avatar sx={{ textTransform: 'capitalize' }} alt={currentUser.firstName} src="/static/images/avatar/1.jpg" />}
 
         </li>)}
     </ul> : null
