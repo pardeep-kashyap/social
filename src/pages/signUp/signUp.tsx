@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -14,6 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { CREATE_USER } from '../../gqlOperations/queries';
 import { useMutation } from '@apollo/client';
+import Loader from '../../components/Loader/Loader';
 const theme = createTheme();
 
 export default function SignUp() {
@@ -34,11 +34,7 @@ export default function SignUp() {
         });
     };
 
-    if (loading) {
-        return (<div style={{ textAlign: 'center' }}>
-            Please wait...
-        </div>)
-    }
+    if (loading) return (<Loader />)
 
     if (error?.message) {
         return (<div style={{ textAlign: 'center' }}>
@@ -68,16 +64,13 @@ export default function SignUp() {
             }}>
                 <Box
                     sx={{
-                        my: 8,
+                        my: 4,
                         mx: 4,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign Up
                     </Typography>

@@ -1,12 +1,13 @@
 import { IconButton, Icon, Menu, MenuItem, Typography } from "@mui/material"
 import { useState } from "react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CommentIcon from '@mui/icons-material/Comment';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import './post.css';
-const Post = ({ caption, images, likes }) => {
+import { Link } from "react-router-dom";
+const Post = ({ caption, images, likes, postAutherdetails, author }) => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -24,8 +25,12 @@ const Post = ({ caption, images, likes }) => {
     return (<div className="post">
         <div className="post-header">
             <div className="post-pic-header">
-                <button className="post-profile-pic-button"><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/205122/49b58aee-bbf0-4be7-ba60-3e9f9a315f09.jpg" /></button>
-                <button className="post-profile-name">Pardeep Kashyap</button>
+                <Avatar alt={postAutherdetails.firstName} className="post-profile-pic-button" src={postAutherdetails.userImage} />
+                <button className="post-profile-name">
+                    <Link to={`/${author}`}>
+                        {postAutherdetails.firstName} {postAutherdetails.lastName}
+                    </Link>
+                </button>
             </div>
             <div className="more-icon">
                 <IconButton
@@ -99,7 +104,11 @@ const Post = ({ caption, images, likes }) => {
                 {likes.length} likes
             </div>
             <div className="post-caption">
-                <button className="post-profile-name">Pardeep Kashyap</button>
+                <button className="post-profile-name">
+                    <Link to={`/${author}`}>
+                        {postAutherdetails.firstName} {postAutherdetails.lastName}
+                    </Link>
+                </button>
                 <span className="post-caption--text">{caption}</span>
             </div>
         </div>

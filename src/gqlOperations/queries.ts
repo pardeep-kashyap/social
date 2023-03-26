@@ -53,6 +53,12 @@ query getPostbyAuther($userid:ID!){
     caption
     images
     tags
+    author
+    postAutherdetails{
+      lastName
+      firstName
+      userImage
+    }
     comments{
       images
       author

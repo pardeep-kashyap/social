@@ -8,6 +8,9 @@
 .layout {
     height: 100vh;
     position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .layout footer {
@@ -19,6 +22,8 @@
     bottom: 0;
     box-shadow: 0 0 3px rgba(0, 0, 0, .2);
     display: flex;
+    position: fixed;
+
 }
 
 footer a {

@@ -16,16 +16,13 @@ import { useMachine } from '@xstate/react'
 import Protected from './components/ProtectedRoute/ProtectedRoute'
 import UnProtected from './components/UnProtectedRoute/UnProtectedRoute'
 import Profile from './pages/Profile/Profile'
-console.log("UnProtected");
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
+  uri: 'http://192.168.1.6:4000/',
   cache: new InMemoryCache(),
   headers: {
     authorization: localStorage.getItem('token') || ''
   }
 })
-
-
 function App() {
   const [currentMachine, sendToMachine] = useMachine(appMachine);
 

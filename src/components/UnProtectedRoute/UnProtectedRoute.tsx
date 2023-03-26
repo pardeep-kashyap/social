@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 const UnProtected = ({ children }: { children: any }) => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
     const checkUserToken = () => {
         const userToken = localStorage.getItem('token');
         if (userToken && userToken !== 'undefined') {
@@ -20,7 +19,7 @@ const UnProtected = ({ children }: { children: any }) => {
     return (
         <>
             {
-                isLoggedIn ? children : null
+                !isLoggedIn ? children : null
             }
         </>
     );;

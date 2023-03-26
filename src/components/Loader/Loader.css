@@ -1,0 +1,7 @@
+.Loader {
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}

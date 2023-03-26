@@ -1,7 +1,6 @@
 {
   "name": "connect",
   "private": true,
-  "homepage": ".",
   "type": "module",
   "version": "0.0.0",
   "scripts": {
@@ -24,6 +23,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.0",
+    "react-spinners": "^0.13.8",
     "rollup-plugin-node-builtins": "^2.1.2",
     "socket.io-client": "^4.6.0",
     "urql": "^3.0.3",

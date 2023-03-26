@@ -12,6 +12,7 @@
 
 .post-header .post-profile-name {
     padding-left: 8px;
+    text-transform: capitalize;
 }
 
 .post-pic-header {

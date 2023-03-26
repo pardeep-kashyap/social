@@ -6,7 +6,8 @@ import './Messenger.css';
 import { useQuery } from "@apollo/client";
 import { GET_ALL_USER } from "../../gqlOperations/queries";
 import CancelIcon from '@mui/icons-material/Cancel';
-const socket = io('http://localhost:5000/');
+import Loader from "../../components/Loader/Loader";
+const socket = io('http://192.168.1.6:5000/');
 
 const Messenger = () => {
     const { data, error, loading } =
@@ -16,7 +17,6 @@ const Messenger = () => {
     const [newMessage, setNewMsg] = useState<any>();
     const [receiverDetail, setReceiverDetails] = useState<any>();
     const [currentUser, setCurrentUser] = useState<any>();
-
     const valueRef = useRef<HTMLInputElement>(null)
 
     const updateMessages = (msg: any) => {
@@ -24,6 +24,7 @@ const Messenger = () => {
         tempMessage.push(msg);
         setMessages(tempMessage)
     }
+
 
     useEffect(() => {
         setCurrentUser(JSON.parse(localStorage.getItem('userData') || '{}'));
@@ -69,6 +70,8 @@ const Messenger = () => {
     const onUserClick = (userDetail: any) => {
         setReceiverDetails(userDetail)
     }
+
+    if (loading) return (<Loader />)
 
     return (
         <div className="messenger">
