@@ -13,20 +13,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import Loader from '../../components/Loader/Loader';
 
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
-
 export default function SignIn() {
     const navigate = useNavigate();
     const emailRef = useRef<HTMLInputElement>(null);

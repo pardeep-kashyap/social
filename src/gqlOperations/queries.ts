@@ -54,7 +54,7 @@ query getPostbyAuther($userid:ID!){
     images
     tags
     author
-    postAutherdetails{
+    postAuthoredDetails{
       lastName
       firstName
       userImage

@@ -1,7 +1,9 @@
 import { createContext } from "react";
 import { createMachine, } from "xstate";
-import { AuthMachine } from "./auth/auth.machine";
-import { PostMachine } from "./post/post.machine";
+// import { loginSuccess } from "./auth/auth.action";
+// import { AuthMachine } from "./auth/auth.machine";
+import { createPost } from "./post/post.action";
+// import { PostMachine } from "./post/post.machine";
 
 export const CREATE_POST = 'CREATE_POST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
@@ -25,8 +27,27 @@ export const appMachine = createMachine({
     initial: 'init',
     states: {
         init: {},
-        posts: PostMachine,
-        auth: AuthMachine
+        posts: {
+            states: {
+                'createPostInProgress': {
+                    invoke: {
+                        src: (context: any, event: any) => createPost(event),
+                        onDone: {
+                            target: "createPostSuccess"
+                        },
+                        onError: {
+                            target: 'createPostInFailed'
+                        }
+                    }
+                },
+                'createPostSuccess': {
+                    type: 'final'
+                },
+                'createPostInFailed': {
+                },
+
+            }
+        }
     },
     on: {
         ...postAction

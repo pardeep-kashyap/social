@@ -17,7 +17,7 @@ const Profile = () => {
 
     const { data, loading: profileLoading } = useQuery(GET_USER_BY_ID, { variables: { userid: location.pathname.split('/')[1] } });
     const { data: userPost, error, loading } = useQuery(GET_ALL_POST_BY_USER, { variables: { userid: localStorage.getItem('id') } })
-    const handleClose = (value: string) => {
+    const handleClose = () => {
         setOpen(false);
     };
 

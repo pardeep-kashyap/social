@@ -7,7 +7,34 @@ import CommentIcon from '@mui/icons-material/Comment';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import './post.css';
 import { Link } from "react-router-dom";
-const Post = ({ caption, images, likes, postAutherdetails, author }) => {
+
+interface IPost {
+    caption: string;
+    images: string[];
+    tags: string[];
+    author: string;
+    postAuthoredDetails: {
+        lastName: string;
+        firstName: string;
+        userImage: string;
+    };
+    comments: {
+        images: string[];
+        author: string;
+        likes: number;
+        text: string;
+    }[];
+    location: {
+        lat: number;
+        lng: number;
+        name: string;
+    };
+    likes: string[];
+    createdAt: {
+        date: Date;
+    };
+}
+const Post = ({ caption, images, likes, postAuthoredDetails, author }: IPost) => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -25,10 +52,10 @@ const Post = ({ caption, images, likes, postAutherdetails, author }) => {
     return (<div className="post">
         <div className="post-header">
             <div className="post-pic-header">
-                <Avatar alt={postAutherdetails.firstName} className="post-profile-pic-button" src={postAutherdetails.userImage} />
+                <Avatar alt={postAuthoredDetails.firstName} className="post-profile-pic-button" src={postAuthoredDetails.userImage} />
                 <button className="post-profile-name">
                     <Link to={`/${author}`}>
-                        {postAutherdetails.firstName} {postAutherdetails.lastName}
+                        {postAuthoredDetails.firstName} {postAuthoredDetails.lastName}
                     </Link>
                 </button>
             </div>
@@ -106,7 +133,7 @@ const Post = ({ caption, images, likes, postAutherdetails, author }) => {
             <div className="post-caption">
                 <button className="post-profile-name">
                     <Link to={`/${author}`}>
-                        {postAutherdetails.firstName} {postAutherdetails.lastName}
+                        {postAuthoredDetails.firstName} {postAuthoredDetails.lastName}
                     </Link>
                 </button>
                 <span className="post-caption--text">{caption}</span>
