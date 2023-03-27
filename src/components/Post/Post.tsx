@@ -5,7 +5,7 @@ import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CommentIcon from '@mui/icons-material/Comment';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import './post.css';
+import './Post.css';
 import { Link } from "react-router-dom";
 
 interface IPost {
