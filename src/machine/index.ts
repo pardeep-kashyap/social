@@ -47,6 +47,15 @@ export const appMachine = createMachine({
                 },
 
             }
+        },
+        auth: {
+            states: {
+                'authSuccess': {
+
+                },
+                'loginFailed': {
+                },
+            }
         }
     },
     on: {
