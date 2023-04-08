@@ -16,7 +16,11 @@ import jwt from 'jwt-decode' // import dependency
 import { useQuery } from 'react-query';
 import { getAPICall } from '../../apiService';
 import { BASE_URL, GOOGLE_SIGN } from '../../endPoints';
-
+declare global {
+    interface Window {
+        google: any;
+    }
+}
 let google: any = window.google;
 
 
