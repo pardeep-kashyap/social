@@ -16,8 +16,14 @@ import { useMachine } from '@xstate/react'
 import Protected from './components/ProtectedRoute/ProtectedRoute'
 import UnProtected from './components/UnProtectedRoute/UnProtectedRoute'
 import Profile from './pages/Profile/Profile'
+
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
+
+
 const client = new ApolloClient({
-  uri: 'http://192.168.1.6:4000/',
+  uri: 'http://localhost:4000/',
   cache: new InMemoryCache(),
   headers: {
     authorization: localStorage.getItem('token') || ''
@@ -27,54 +33,57 @@ function App() {
   const [currentMachine, sendToMachine] = useMachine(appMachine);
 
   return (
-    <MachineContext.Provider value={[currentMachine, sendToMachine]}>
-      <ApolloProvider client={client}  >
-        <ThemeProvider theme={THEME}>
-          <BrowserRouter >
-            <Routes>
-              <Route path={"/signIn"} element={
-                <UnProtected>
-                  <SignIn />
-                </UnProtected>
-              } />
-              <Route path="*" element={
-                <Protected>
-                  <Layout>
-                    <Profile />
-                  </Layout>
-                </Protected>
-              } />
-              <Route path={"/signUp"} element={
-                <UnProtected>
-                  <SignUp />
-                </UnProtected>
-              } />
-              <Route path={"/"} element={
-                <Protected>
-                  <Layout>
-                    <Home />
-                  </Layout>
-                </Protected>
-              } />
-              <Route path={"/new"} element={
-                <Protected>
-                  <Layout>
-                    <AddNew />
-                  </Layout>
-                </Protected>
-              } />
-              <Route path={"/message"} element={
-                <Protected>
-                  <Layout>
-                    <Messenger />
-                  </Layout>
-                </Protected>
-              } />
-            </Routes>
-          </BrowserRouter>
-        </ThemeProvider>
-      </ApolloProvider>
-    </MachineContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <MachineContext.Provider value={[currentMachine, sendToMachine]}>
+        <ApolloProvider client={client}  >
+          <ThemeProvider theme={THEME}>
+            <BrowserRouter >
+              <Routes>
+                <Route path={"/signIn"} element={
+                  <UnProtected>
+                    <SignIn />
+                  </UnProtected>
+                } />
+                <Route path="*" element={
+                  <Protected>
+                    <Layout>
+                      <Profile />
+                    </Layout>
+                  </Protected>
+                } />
+                <Route path={"/signUp"} element={
+                  <UnProtected>
+                    <SignUp />
+                  </UnProtected>
+                } />
+                <Route path={"/"} element={
+                  <Protected>
+                    <Layout>
+                      <Home />
+                    </Layout>
+                  </Protected>
+                } />
+                <Route path={"/new"} element={
+                  <Protected>
+                    <Layout>
+                      <AddNew />
+                    </Layout>
+                  </Protected>
+                } />
+                <Route path={"/message"} element={
+                  <Protected>
+                    <Layout>
+                      <Messenger />
+                    </Layout>
+                  </Protected>
+                } />
+              </Routes>
+            </BrowserRouter>
+          </ThemeProvider>
+        </ApolloProvider>
+      </MachineContext.Provider>
+
+    </QueryClientProvider>
 
   )
 }

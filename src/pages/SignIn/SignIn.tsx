@@ -12,6 +12,13 @@ import { useMutation } from '@apollo/client';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import Loader from '../../components/Loader/Loader';
+import jwt from 'jwt-decode' // import dependency
+import { useQuery } from 'react-query';
+import { getAPICall } from '../../apiService';
+import { BASE_URL, GOOGLE_SIGN } from '../../endPoints';
+
+let google: any = window.google;
+
 
 export default function SignIn() {
     const navigate = useNavigate();
@@ -19,9 +26,54 @@ export default function SignIn() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const [signInUser, { data, error, loading }] = useMutation(SIGN_IN);
 
-    React.useEffect(() => {
+    function onClickHandler() {
+        console.log("Sign in with Google button clicked...")
+    }
+
+    const handleCredentialResponse = async (response: any) => {
+        try {
+            const result = await getAPICall(`${GOOGLE_SIGN}?token=${response.credential}`, {});
+            console.log("result", result);
+            setLoginData(result);
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    React.useLayoutEffect(() => {
         localStorage.clear();
+
+        if (google && google.accounts) {
+            google?.accounts?.id?.initialize({
+                login_uri: "http://localhost:5000/api/auth/google/callback",
+                client_id:
+                    "87214382687-ivbaqu19d6c2jnskubnb7tm8045pjcat.apps.googleusercontent.com",
+                prompt_parent_id: "google-login",
+                callback: handleCredentialResponse
+            });
+
+            google?.accounts?.id?.renderButton(
+                document.getElementById("buttonDiv"),
+                {
+                    theme: 'outline',
+                    size: 'large',
+                    click_listener: onClickHandler
+                } // customization attributes
+            );
+
+            google.accounts.id.prompt();
+            google.accounts.id.disableAutoSelect()
+        }
+
     }, []);
+
+    const setLoginData = (data: any) => {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userData", JSON.stringify(data));
+        localStorage.setItem("id", data.id);
+    }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -36,9 +88,7 @@ export default function SignIn() {
     };
 
     if (data && data.signInUser) {
-        localStorage.setItem("token", data.signInUser.token);
-        localStorage.setItem("userData", JSON.stringify(data.signInUser));
-        localStorage.setItem("id", data.signInUser.id);
+        setLoginData(data.signInUser);
         navigate("/");
     }
 
@@ -115,6 +165,18 @@ export default function SignIn() {
                         >
                             Sign In
                         </Button>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '8px', marginBottom: 'var(--gutter)' }}>
+                            <div>
+
+                                OR
+                            </div>
+                            <button id="buttonDiv" className="btn btn-submit">
+                                login
+                            </button>
+
+                        </div>
+
+
                         <Grid container>
                             <Grid item sx={{ margin: 'auto' }}>
                                 Don't have an account? <Link to="/signUp" >
@@ -125,7 +187,7 @@ export default function SignIn() {
                     </Box>
                 </Box>
             </Grid>
-        </Grid>
+        </Grid >
     );
 }
 

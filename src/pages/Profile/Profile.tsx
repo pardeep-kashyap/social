@@ -25,7 +25,7 @@ const Profile = () => {
 
     return <div className="Profile">
         <div className="Profile--details">
-            <Avatar sx={{ width: "150px", height: "150px" }} alt={data?.user.firstName} src={data?.user.profileImage} />
+            <Avatar sx={{ width: "150px", height: "150px" }} alt={data?.user.firstName} src={data?.user.userImage} />
             <div >
                 <span>
                     <Typography variant="body1">

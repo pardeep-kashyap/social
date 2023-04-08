@@ -1,8 +1,10 @@
 .layout-container {
-    padding: 0 var(--gutter);
     padding-top: 60px;
     display: flex;
     min-height: calc(100vh - var(--header-height));
+    width: 100%;
+    align-content: center;
+    justify-content: center;
 }
 
 .layout {

@@ -21,6 +21,12 @@ export const GET_USER_BY_ID = gql`query getUserById($userid:ID!){
     firstName
     lastName 
     email
+    userImage
+    saved
+    username
+    followers
+    following
+    bio
   }
 }`
 export const CREATE_USER = gql`mutation createUser($userNew:UserInput!){

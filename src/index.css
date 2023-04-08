@@ -313,3 +313,10 @@ body:not(:hover) ::-webkit-scrollbar {
   width: 0.5rem;
   height: 0;
 }
+
+#buttonDiv {
+  background: transparent;
+  outline: none;
+  border: none;
+  margin: auto;
+}

@@ -46,7 +46,7 @@ function doFetch(url: string, method: string, body: any, configuredHeaders = {})
         });
     });
 }
-export const getAPICall = (baseUrl: string, queryParams: any, configuredHeaders: any) => {
+export const getAPICall = (baseUrl: string, configuredHeaders: any) => {
     return doFetch(baseUrl, 'GET', null, configuredHeaders);
 };
 
