@@ -12,10 +12,8 @@ import { useMutation } from '@apollo/client';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import Loader from '../../components/Loader/Loader';
-import jwt from 'jwt-decode' // import dependency
-import { useQuery } from 'react-query';
 import { getAPICall } from '../../apiService';
-import { BASE_URL, GOOGLE_SIGN } from '../../endPoints';
+import { GOOGLE_SIGN } from '../../endPoints';
 declare global {
     interface Window {
         google: any;

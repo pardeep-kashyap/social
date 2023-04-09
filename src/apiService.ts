@@ -23,12 +23,11 @@ function doFetch(url: string, method: string, body: any, configuredHeaders = {})
     }
 
     options.headers = options.headers || {};
-    options.headers.authToken = localStorage.getItem('auth_token') || ``;
+    options.headers.authToken = localStorage.getItem('token') || ``;
     options.headers = {
         ...options.headers,
         ...configuredHeaders
     };
-    // options.headers.role_id = authInfo?.userInfo?.role_id ? authInfo.userInfo.role_id : ``;
 
     return fetch(url, options).then(async (resp) => {
         if (resp.status >= 400) {

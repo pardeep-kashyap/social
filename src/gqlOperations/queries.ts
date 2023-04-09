@@ -56,6 +56,7 @@ export const CREATE_QUOTE = gql`mutation createQuote($text:String!){
 export const GET_ALL_POST_BY_USER = gql`
 query getPostbyAuther($userid:ID!){
   posts(author:$userid){
+    _id
     caption
     images
     tags

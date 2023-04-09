@@ -3,15 +3,19 @@ import { useState } from "react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import './Post.css';
 import { Link } from "react-router-dom";
+import { putAPICall } from "../../apiService";
+import { UPDATE_POST_API } from "../../endPoints";
 
 interface IPost {
     caption: string;
     images: string[];
     tags: string[];
+    _id: string,
     author: string;
     postAuthoredDetails: {
         lastName: string;
@@ -34,20 +38,33 @@ interface IPost {
         date: Date;
     };
 }
-const Post = ({ caption, images, likes, postAuthoredDetails, author }: IPost) => {
+const Post = ({ caption, images, likes, postAuthoredDetails, author, _id }: IPost) => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const [isLiked, setIsLiked] = useState(likes.includes(localStorage.getItem('id') as string));
+    const [likesLocal, setLikes] = useState(likes);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
     };
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
+    const toggleLike = () => {
+        const likes = !isLiked ? [localStorage.getItem('id')] : [];
+        (async () => {
+            try {
+                const response = await putAPICall({ baseUrl: `${UPDATE_POST_API}/${_id}`, body: { likes } });
+                setIsLiked(!isLiked);
+                if (response && response.data && response.data.likes) {
+                    setLikes(response.data.likes);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        })()
+    }
 
     return (<div className="post">
         <div className="post-header">
@@ -96,7 +113,6 @@ const Post = ({ caption, images, likes, postAuthoredDetails, author }: IPost) =>
             </Menu>
         </div>
         <div className="post-detail">
-
             {
                 images?.map((img: string) => <img src={img} />)
             }
@@ -106,8 +122,12 @@ const Post = ({ caption, images, likes, postAuthoredDetails, author }: IPost) =>
                 <IconButton
                     size="large"
                     color="inherit"
+                    onClick={toggleLike}
                 >
-                    <FavoriteBorderIcon />
+                    {
+                        isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />
+                    }
+
                 </IconButton>
                 <IconButton
                     size="large"
@@ -128,7 +148,7 @@ const Post = ({ caption, images, likes, postAuthoredDetails, author }: IPost) =>
         </div>
         <div className="post-bottom-details">
             <div className="post-likes">
-                {likes.length} likes
+                {likesLocal.length} likes
             </div>
             <div className="post-caption">
                 <button className="post-profile-name">

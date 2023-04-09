@@ -18,6 +18,7 @@ import UnProtected from './components/UnProtectedRoute/UnProtectedRoute'
 import Profile from './pages/Profile/Profile'
 
 import { QueryClient, QueryClientProvider } from 'react-query'
+import PostDetail from './pages/PostDetail/PostDetail'
 
 const queryClient = new QueryClient()
 
@@ -67,6 +68,13 @@ function App() {
                   <Protected>
                     <Layout>
                       <AddNew />
+                    </Layout>
+                  </Protected>
+                } />
+                <Route path={"/post/:postId"} element={
+                  <Protected>
+                    <Layout>
+                      <PostDetail />
                     </Layout>
                   </Protected>
                 } />
