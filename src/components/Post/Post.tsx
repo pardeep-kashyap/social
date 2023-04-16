@@ -6,7 +6,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import './Post.css';
+import './Post.scss';
 import { Link } from "react-router-dom";
 import { putAPICall } from "../../apiService";
 import { UPDATE_POST_API } from "../../endPoints";
@@ -76,6 +76,7 @@ const Post = ({ caption, images, likes, postAuthoredDetails, author, _id }: IPos
                     </Link>
                 </button>
             </div>
+
             <div className="more-icon">
                 <IconButton
                     size="large"

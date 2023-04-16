@@ -1,7 +1,6 @@
-import { Card } from "@mui/material";
 import Footer from "../Footer/Footer";
 import NavBar from "../NavBar";
-import './Layout.css';
+import './Layout.scss';
 
 interface layout {
     children: JSX.Element

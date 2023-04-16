@@ -1,0 +1,90 @@
+.add-new-post {
+    width: 100%;
+    padding: 0 var(--gutter);
+
+    .post-title-container {
+        display: flex;
+        margin-bottom: var(--gutter);
+    }
+
+    .emoji-button {
+        height: 50px;
+        width: 50px;
+        outline: none;
+        border: none;
+        background: transparent;
+    }
+
+    .location_container {
+        width: 100%;
+        display: flex;
+    }
+
+    .location_input {
+        width: 90%;
+        border: none;
+        outline: none;
+        border-bottom: 2px solid lightgrey;
+        margin-left: 8px;
+    }
+
+    .image-upload {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        min-height: 300px;
+    }
+
+    .image-upload__label {
+        display: inline-block;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        text-align: center;
+        width: 100%;
+        border: none;
+        padding: 0.5em 0;
+        color: var(--white);
+        background-color: var(--theme);
+    }
+
+    .image-upload .close {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        color: var(--theme);
+    }
+
+    .image-upload__label:hover {
+        background-color: #e6e6e6;
+    }
+
+    .image-upload__input {
+        display: none;
+    }
+
+    .image-upload__preview {
+        width: 100%;
+        max-height: 20rem;
+        object-fit: contain;
+        box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+        border-radius: 0.5rem;
+    }
+
+    .image-upload__placeholder {
+        height: 20rem;
+        border-radius: 0.5rem;
+        width: 100%;
+        display: flex;
+    }
+
+    .image-upload__placeholder img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: auto;
+    }
+
+}

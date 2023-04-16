@@ -4,7 +4,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import './NavBar.css';
+import './NavBar.scss';
 function NavBar() {
     const navigate = useNavigate()
     const location = useLocation();

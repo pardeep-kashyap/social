@@ -4,7 +4,7 @@ import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const Footer = () => {
@@ -14,36 +14,36 @@ const Footer = () => {
 
     }, [])
     return (<footer>
-        <Link to={'/'}>
+        <NavLink to={'/'}>
             <IconButton size="large"
                 color="inherit">
                 <HomeIcon />
             </IconButton>
-        </Link>
-        <Link to={'/'}>
+        </NavLink>
+        <NavLink to={'/reel'}>
             <IconButton size="large"
                 color="inherit">
                 <VideoLibraryIcon />
             </IconButton>
-        </Link>
-        <Link to={'/new'}>
+        </NavLink>
+        <NavLink to={'/new'}>
             <IconButton size="large"
                 color="inherit">
                 <AddCircleIcon />
             </IconButton>
-        </Link>
-        <Link to={'/message'}>
+        </NavLink>
+        <NavLink to={'/message'}>
             <IconButton size="large"
                 color="inherit">
                 <QuestionAnswerIcon />
             </IconButton>
-        </Link>
-        <Link to={`/${currentUser?.id}`}>
+        </NavLink>
+        <NavLink to={`/${currentUser?.id}`}>
             <IconButton size="large"
                 color="inherit">
                 <AccountCircleIcon />
             </IconButton>
-        </Link>
+        </NavLink>
     </footer>)
 }
 export default Footer;

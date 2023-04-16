@@ -2,7 +2,7 @@ import { Box, TextField, IconButton, Avatar, List, ListItem, ListItemAvatar, Lis
 import React, { useEffect, useRef, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import io from 'socket.io-client';
-import './Messenger.css';
+import './Messenger.scss';
 import { useQuery } from "@apollo/client";
 import { GET_ALL_USER } from "../../gqlOperations/queries";
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -150,7 +150,7 @@ const ChatMessages = ({ messages = [], receiverDetail, currentUser }: { messages
 const UserList = ({ users = [], onClick, selectedUser }: { users: any[], onClick: any, selectedUser: any }) => {
     return users.length ? <div className="chat-users">
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            {users.map((user: any, key: number) => <ListItem sx={{ backgroundColor: selectedUser?.id === user?.id ? 'lightgray' : '', cursor: 'pointer' }} alignItems="flex-start" onClick={() => onClick(user)}>
+            {users.map((user: any, key: number) => <ListItem sx={{ backgroundColor: selectedUser?.id === user?.id ? 'lightgray' : '', cursor: 'pointer' }} key={key + "_" + Math.random()} alignItems="flex-start" onClick={() => onClick(user)}>
                 <ListItemAvatar>
                     <Avatar alt={user.firstName} src="/static/images/avatar/1.jpg" />
                 </ListItemAvatar>

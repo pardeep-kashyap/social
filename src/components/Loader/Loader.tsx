@@ -1,5 +1,5 @@
 import { ClipLoader } from "react-spinners";
-import './Loader.css';
+import './Loader.scss';
 const Loader = () => {
     return (<div className="Loader">
         <ClipLoader color="var(--theme)" aria-label="Loading Spinner"

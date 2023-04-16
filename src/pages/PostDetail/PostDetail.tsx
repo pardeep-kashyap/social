@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import Loader from "../../components/Loader/Loader";
 import Post from "../../components/Post/Post";
 import { GET_ALL_POST_BY_USER } from "../../gqlOperations/queries";
-import './PostDetail.css'
+import './PostDetail.scss'
 
 const PostDetail = () => {
     const { data, error, loading } = useQuery(GET_ALL_POST_BY_USER, { variables: { userid: localStorage.getItem('id') } })
