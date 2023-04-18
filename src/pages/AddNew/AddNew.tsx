@@ -121,7 +121,7 @@ const AddNew = () => {
                     <LocationOnIcon /> <ReactGoogleAutocomplete
                         style={{ width: "90%" }}
                         className="location_input"
-                        onPlaceSelected={(place) => {
+                        onPlaceSelected={(place: any) => {
                             console.log(place);
                         }}
                         options={{
