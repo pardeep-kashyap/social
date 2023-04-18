@@ -49,8 +49,10 @@ const AddNew = () => {
 
 
 
-    const onTextChange = (evt: Event) => {
-        setInput(evt.target.value);
+    const onTextChange = (evt: any) => {
+        if (evt && evt.target) {
+            setInput(evt.target.value);
+        }
     }
     return (
         <div className="add-new-post">
