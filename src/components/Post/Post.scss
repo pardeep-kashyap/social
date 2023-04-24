@@ -39,6 +39,7 @@
         background: transparent;
         border: none;
         font-weight: 500;
+        padding-left: 0;
     }
 
 
@@ -78,10 +79,6 @@
         margin-bottom: 8px;
     }
 
-    .post-profile-name {
-        padding-left: 0;
-    }
-
     .post-profile-name,
     .post-caption {
         font-weight: 500;
@@ -90,6 +87,7 @@
     .post-caption--text {
         color: var(--black);
         font-weight: var(--font-weight-ExtraLight);
+        padding-left: calc(var(--gutter)/2);
 
     }
 }

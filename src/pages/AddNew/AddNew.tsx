@@ -92,9 +92,6 @@ const AddNew = () => {
 
 
                 <div className="image-upload">
-                    {/* <label htmlFor="file-input" className="image-upload__label">
-                        {image ? 'Change Image' : 'Upload Image'}
-                    </label> */}
                     <div className="close">
                         {image && <HighlightOffIcon onClick={() => setImage(null)} />}
                     </div>
@@ -111,9 +108,7 @@ const AddNew = () => {
                         <div className="image-upload__placeholder">
                             <label htmlFor="file-input" >
                                 <AddPhotoAlternateIcon sx={{ width: "100%", height: "100%", color: "lightgray" }} />
-
                             </label>
-                            {/* <img src="https://i1.wp.com/www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg?resize=624%2C421&ssl=1" alt="placeholder" /> */}
                         </div>
                     )}
                 </div>
