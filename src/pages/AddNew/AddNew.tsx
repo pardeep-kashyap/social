@@ -67,9 +67,9 @@ const AddNew = () => {
                         autoComplete="text"
                         placeholder="Title"
                         autoFocus
-                        value={input}
                         variant="standard"
                         aria-required
+                        value={input}
                         onChange={onTextChange}
                     />
                     <button className="emoji-button" >

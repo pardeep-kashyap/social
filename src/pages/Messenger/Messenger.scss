@@ -3,11 +3,19 @@
     width: 100%;
     height: calc(100vh - var(--header-height) - var(--header-height));
     padding: var(--gutter);
+    flex-direction: column;
 
+
+    .MuiPaper-root {
+        margin-bottom: calc(var(--gutter) / 2);
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+        width: 100%;
+    }
 
     .messenger-users {
         min-width: 200px;
         flex-grow: 0;
+        flex-basis: 100%;
     }
 
 

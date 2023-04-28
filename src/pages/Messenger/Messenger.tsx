@@ -1,22 +1,48 @@
-import { Box, TextField, IconButton, Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import { Box, TextField, IconButton, Avatar } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import io from 'socket.io-client';
-import './Messenger.scss';
-import { useQuery } from "@apollo/client";
-import { GET_ALL_USER } from "../../gqlOperations/queries";
 import CancelIcon from '@mui/icons-material/Cancel';
 import Loader from "../../components/Loader/Loader";
+import { CREATE_CONVERSATION, FETCH_CONVERSATION, FETCH_CONVERSATION_MESSAGES, SEND_MESSAGE } from "../../endPoints";
+import { getAPICall, postAPICall } from "../../apiService";
+import ConversationsList from "../../components/ConversationsList/ConversationsList";
+import { toast } from 'react-toastify';
+
+import './Messenger.scss';
+import SearchInput from "../../components/SearchInput/SearchInput";
+import UserList from "../../components/UserList/UserList";
+
 const socket = io('http://localhost:5000/');
 
+export interface IUser {
+    id: string;
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    userImage: string;
+    token?: string
+}
+export interface IConversation {
+    messages: any[],
+    users: IUser[],
+    _id: string
+}
 const Messenger = () => {
-    const { data, error, loading } =
-        useQuery(GET_ALL_USER);
+
     const [isConnected, setIsConnected] = useState(socket.connected);
     const [chatMessages, setMessages] = useState<any[]>([]);
     const [newMessage, setNewMsg] = useState<any>();
-    const [receiverDetail, setReceiverDetails] = useState<any>();
-    const [currentUser, setCurrentUser] = useState<any>();
+    const [loading, setLoading] = useState<boolean>(true);
+    const [receiverDetail, setReceiverDetails] = useState<IUser>(null as IUser);
+    const [currentUser, setCurrentUser] = useState<IUser>({} as IUser);
+    const [conversations, setConversations] = useState<IConversation[]>([]);
+    const [selectedConversation, setselectedConversation] = useState<any>({});
+    const [selectedUserMessages, setSelectedUserMessages] = useState<any>([]);
+    const [messageLoader, setMessageLoader] = useState<boolean>(true);
+    const [input, setInput] = useState<any>('');
+
     const valueRef = useRef<HTMLInputElement>(null)
 
     const updateMessages = (msg: any) => {
@@ -27,7 +53,8 @@ const Messenger = () => {
 
 
     useEffect(() => {
-        setCurrentUser(JSON.parse(localStorage.getItem('userData') || '{}'));
+        const user = JSON.parse(localStorage.getItem('userData') || '{}') as IUser;
+        setCurrentUser(user);
         socket.on('connect', () => {
             console.log("connect");
             setIsConnected(true);
@@ -40,6 +67,8 @@ const Messenger = () => {
         socket.on('message', (newMessage) => {
             setNewMsg(newMessage)
         });
+
+        getAllConversation(user.id)
 
         return () => {
             socket.off('connect');
@@ -56,28 +85,121 @@ const Messenger = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (valueRef.current) {
-            socket.emit('message', {
-                message: valueRef?.current?.value,
-                sentBy: currentUser.id,
-                receiverId: receiverDetail.id
-            });
+        console.log();
+        const conversationPlayload = {
+            body: valueRef?.current?.value,
+            sender: currentUser.id,
+            receiver: receiverDetail._id,
+            conversation: selectedConversation._id
+        }
+        if (valueRef.current && currentUser.id) {
+            sendMessage(conversationPlayload)
+            socket.emit('message', conversationPlayload);
             valueRef.current.value = '';
 
         }
     };
 
-    const onUserClick = (userDetail: any) => {
-        setReceiverDetails(userDetail)
+    const onUserClick = (userDetail: any, selectedConversation: any) => {
+        setSelectedUserMessages([]);
+        setReceiverDetails(userDetail);
+        setselectedConversation(selectedConversation);
+        getAllMessages(selectedConversation._id)
+    }
+
+
+    const sendMessage = async (request: any) => {
+        try {
+            const result = await postAPICall({
+                baseUrl: SEND_MESSAGE,
+                body: request
+            })
+        } catch (e) {
+            console.log(e)
+            toast("Unkown Error while fetching Messages ", { type: 'error' });
+        }
+    }
+
+
+    const getAllMessages = async (id: string) => {
+        setMessageLoader(true);
+        try {
+            const result = await getAPICall(
+                `${FETCH_CONVERSATION_MESSAGES}/${id}`, {}
+            )
+            setSelectedUserMessages(result.messages);
+        } catch (e) {
+            console.log(e);
+            toast("Unkown Error while fetching messages ", { type: 'error' });
+        }
+        setMessageLoader(false);
+    }
+
+
+    const createConversation = async (user: IUser) => {
+        const result = await postAPICall({
+            baseUrl: CREATE_CONVERSATION,
+            body: {
+                users: [user.id, currentUser.id]
+            }
+        });
+        setselectedConversation(result);
+        getAllMessages(result._id)
+    }
+
+    const getAllConversation = async (id: string) => {
+        setLoading(true);
+        try {
+            const result = await getAPICall(
+                `${FETCH_CONVERSATION}/${id}`, {}
+            )
+            setConversations(result);
+
+        } catch (e) {
+            console.log(e);
+            toast("Unkown Error while fetching conversation ", { type: 'error' });
+        }
+        setLoading(false);
     }
 
     if (loading) return (<Loader />)
 
+    const onTextChange = (evt: any) => {
+        if (evt && evt.target) {
+            setInput(evt.target.value);
+        }
+    }
+
+    const OnConversationCreation = (user: IUser) => {
+        console.log("user", user);
+        console.log("conversations", conversations);
+        let isConversationExit: boolean = false;
+        conversations.forEach((convo: IConversation) => {
+            const userId = [...convo.users.map((user) => user._id)];
+            if (!userId.includes(user.id)) {
+                isConversationExit = true;
+                setselectedConversation(convo);
+                getAllMessages(convo._id)
+            }
+        })
+        setSelectedUserMessages([]);
+        setReceiverDetails(user);
+        if (!isConversationExit) {
+            createConversation(user)
+        }
+
+    }
+
     return (
         <div className="messenger">
+
             {
                 !receiverDetail ? <div className="messenger-users">
-                    <UserList {...data} onClick={onUserClick} selectedUser={receiverDetail} />
+                    <SearchInput onChange={onTextChange} value={input} />
+                    {
+                        input.length > 0 ? <UserList selectedUser={currentUser} param={input} onClick={OnConversationCreation} /> : <ConversationsList conversations={conversations} onClick={onUserClick} selectedUser={currentUser} />
+                    }
+
                 </div> :
                     <div className="messager-chat-box">
                         {
@@ -88,17 +210,16 @@ const Messenger = () => {
                                     height: '80px', display: 'flex'
                                 }}>
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: "5px" }}>
-                                        <Avatar alt={receiverDetail?.firstName} src="/static/images/avatar/1.jpg" /> <span className="text-user-name">{receiverDetail?.firstName} {receiverDetail?.lastName}</span>
+                                        <Avatar alt={receiverDetail?.firstName} src={receiverDetail.userImage} /> <span className="text-user-name">{receiverDetail?.firstName} {receiverDetail?.lastName}</span>
                                     </Box>
                                     <IconButton size="large"
                                         color="inherit" onClick={() => setReceiverDetails(null)}>
                                         <CancelIcon />
                                     </IconButton>
                                 </Box>
-
-
                                 <div className="messager-chat-box-messages-list">
-                                    <ChatMessages messages={chatMessages} receiverDetail={receiverDetail} currentUser={currentUser} />
+
+                                    <ChatMessages messages={[...selectedUserMessages, ...chatMessages]} receiverDetail={receiverDetail} currentUser={currentUser} />
                                 </div>
                                 <Box component="form" sx={{ mt: 1 }} className="messager-chat-box-messages-input" noValidate onSubmit={handleSubmit}>
                                     <TextField
@@ -112,11 +233,9 @@ const Messenger = () => {
                                         autoFocus
                                         inputRef={valueRef}
                                     />
-
                                     <IconButton
                                         color="primary"
                                         type="submit"
-
                                     >
                                         <SendIcon />
                                     </IconButton>
@@ -133,13 +252,15 @@ const Messenger = () => {
 export default Messenger;
 
 
-const ChatMessages = ({ messages = [], receiverDetail, currentUser }: { messages: any[], receiverDetail: any, currentUser: any }) => {
-    return messages.length ? <ul className="chat-messages">
-        {messages.map((messageDetail: any, key: number) => <li key={key + '_messages'} className={messageDetail.sentBy == currentUser.id ? 'sent-by-you' : 'not-sent-by-you'}>
+const ChatMessages = ({ messages = [], receiverDetail, currentUser }: { messages: any[], receiverDetail: IUser, currentUser: IUser }) => {
+    console.log("messages", messages);
 
-            {messageDetail.sentBy !== currentUser.id && <Avatar sx={{ textTransform: 'capitalize' }} alt={receiverDetail?.firstName} src="/static/images/avatar/1.jpg" />}
-            <span>{messageDetail.message}</span>
-            {messageDetail.sentBy === currentUser.id && <Avatar sx={{ textTransform: 'capitalize' }} alt={currentUser.firstName} src="/static/images/avatar/1.jpg" />}
+    return messages.length ? <ul className="chat-messages">
+        {messages.map((messageDetail: any, key: number) => <li key={key + '_messages'} className={messageDetail.sender == currentUser.id ? 'sent-by-you' : 'not-sent-by-you'}>
+
+            {messageDetail.sender !== currentUser.id && <Avatar sx={{ textTransform: 'capitalize' }} alt={receiverDetail?.firstName} src={receiverDetail.userImage} />}
+            <span>{messageDetail.body}</span>
+            {messageDetail.sender === currentUser.id && <Avatar sx={{ textTransform: 'capitalize' }} alt={currentUser.firstName} src={receiverDetail.userImage} />}
 
         </li>)}
     </ul> : null
@@ -147,31 +268,4 @@ const ChatMessages = ({ messages = [], receiverDetail, currentUser }: { messages
 
 
 
-const UserList = ({ users = [], onClick, selectedUser }: { users: any[], onClick: any, selectedUser: any }) => {
-    return users.length ? <div className="chat-users">
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            {users.map((user: any, key: number) => <ListItem sx={{ backgroundColor: selectedUser?.id === user?.id ? 'lightgray' : '', cursor: 'pointer' }} key={key + "_" + Math.random()} alignItems="flex-start" onClick={() => onClick(user)}>
-                <ListItemAvatar>
-                    <Avatar alt={user.firstName} src="/static/images/avatar/1.jpg" />
-                </ListItemAvatar>
-                <ListItemText
-                    primary={user.firstName + ' ' + user.lastName}
-                    secondary={
-                        <React.Fragment>
-                            <Typography
-                                sx={{ display: 'inline' }}
-                                component="span"
-                                variant="body2"
-                                color="text.primary"
-                            >
-                                Message (1)
-                            </Typography>
 
-                        </React.Fragment>
-                    }
-                >
-                </ListItemText>
-            </ListItem>)}
-        </List>
-    </div> : null
-}
