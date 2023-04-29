@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AppRouteContant } from '../../constants';
 const Protected = ({ children }: { children: any }) => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -8,7 +9,7 @@ const Protected = ({ children }: { children: any }) => {
         const userToken = localStorage.getItem('token');
         if (!userToken || userToken === 'undefined') {
             setIsLoggedIn(false);
-            return navigate('/signIn');
+            return navigate(AppRouteContant.SIGNIN);
         }
         setIsLoggedIn(true);
     }

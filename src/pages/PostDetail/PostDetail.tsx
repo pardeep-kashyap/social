@@ -3,6 +3,9 @@ import Loader from "../../components/Loader/Loader";
 import Post from "../../components/Post/Post";
 import { GET_ALL_POST_BY_USER } from "../../gqlOperations/queries";
 import './PostDetail.scss'
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import { AppRouteContant } from "../../constants";
 
 const PostDetail = () => {
     const { data, error, loading } = useQuery(GET_ALL_POST_BY_USER, { variables: { userid: localStorage.getItem('id') } })
@@ -13,7 +16,7 @@ const PostDetail = () => {
         <div className="post-container">
             {data?.posts.length ? data?.posts?.map((quote: any, index: number) => (
                 <Post {...quote} key={index + 'post'} />
-            )) : <div style={{ textAlign: 'center' }}>Create New Post</div>
+            )) : <div className="new-post"> <Link to={AppRouteContant.NEW}><Button variant="contained">Create New Post</Button></Link> </div>
             }
         </div >
     )

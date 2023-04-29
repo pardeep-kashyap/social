@@ -20,6 +20,8 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import PostDetail from './pages/PostDetail/PostDetail';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Search from './pages/Search/Search';
+import { AppRouteContant } from './constants';
 
 const queryClient = new QueryClient()
 
@@ -43,48 +45,62 @@ function App() {
 
             <BrowserRouter >
               <Routes>
-                <Route path={"/signIn"} element={
+                <Route path={AppRouteContant.SIGNIN} element={
                   <UnProtected>
                     <SignIn />
                   </UnProtected>
                 } />
-                <Route path="*" element={
+                <Route path={AppRouteContant.PROFILE} element={
                   <Protected>
                     <Layout>
                       <Profile />
                     </Layout>
                   </Protected>
                 } />
-                <Route path={"/signUp"} element={
+                <Route path={AppRouteContant.SIGNUP} element={
                   <UnProtected>
                     <SignUp />
                   </UnProtected>
                 } />
-                <Route path={"/"} element={
+                <Route path={AppRouteContant.HOME} element={
                   <Protected>
                     <Layout>
                       <Home />
                     </Layout>
                   </Protected>
                 } />
-                <Route path={"/new"} element={
+                <Route path={AppRouteContant.NEW} element={
                   <Protected>
                     <Layout>
                       <AddNew />
                     </Layout>
                   </Protected>
                 } />
-                <Route path={"/post/:postId"} element={
+                <Route path={AppRouteContant.POST_DETAIL} element={
                   <Protected>
                     <Layout>
                       <PostDetail />
                     </Layout>
                   </Protected>
                 } />
-                <Route path={"/message"} element={
+                <Route path={AppRouteContant.MESSAGE} element={
                   <Protected>
                     <Layout>
                       <Messenger />
+                    </Layout>
+                  </Protected>
+                } />
+                <Route path={AppRouteContant.REEL} element={
+                  <Protected>
+                    <Layout>
+                      <Messenger />
+                    </Layout>
+                  </Protected>
+                } />
+                <Route path={AppRouteContant.SEARCH} element={
+                  <Protected>
+                    <Layout>
+                      <Search />
                     </Layout>
                   </Protected>
                 } />

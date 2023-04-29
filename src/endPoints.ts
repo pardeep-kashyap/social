@@ -7,3 +7,5 @@ export const CREATE_MESSAGE = `${BASE_URL}api/conversation/create`;
 export const FETCH_CONVERSATION = `${BASE_URL}api/conversation/fetch`;
 export const FETCH_CONVERSATION_MESSAGES = `${BASE_URL}api/conversation/fetch/messages`;
 export const SEND_MESSAGE = `${BASE_URL}api/message/send`;
+export const FOLLOW_USER = `${BASE_URL}api/user/follow`;
+export const UN_FOLLOW_USER = `${BASE_URL}api/user/unFollow`;

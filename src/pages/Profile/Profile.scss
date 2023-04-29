@@ -4,13 +4,19 @@
 
     .Profile--details {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         gap: 10px;
         align-items: center;
     }
 
+    .Profile--header {
+        padding: 0 var(--gutter);
+    }
+
     .Profile--details .MuiTypography-body1 {
         text-transform: capitalize;
+        text-align: center;
+        line-height: 20px;
     }
 
     .Profile--orientation {
@@ -18,14 +24,29 @@
         justify-content: space-around;
     }
 
+    .w-full {
+        padding: var(--gutter);
+    }
+
+    .profile-action {
+        gap: var(--gutter);
+        display: flex;
+    }
+
+    .profile-action>button {
+        flex: 1 1 100%;
+    }
+
+
     .profile-stats {
         display: flex;
         width: 100%;
-        padding: var(--gutter);
+        padding-bottom: var(--gutter);
         text-align: center;
     }
 
     .profile-stats>div {
         flex: 1 1 100%;
     }
+
 }

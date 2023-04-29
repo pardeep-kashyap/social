@@ -35,7 +35,7 @@ const Messenger = () => {
     const [chatMessages, setMessages] = useState<any[]>([]);
     const [newMessage, setNewMsg] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
-    const [receiverDetail, setReceiverDetails] = useState<IUser>(null as IUser);
+    const [receiverDetail, setReceiverDetails] = useState<IUser>({} as IUser);
     const [currentUser, setCurrentUser] = useState<IUser>({} as IUser);
     const [conversations, setConversations] = useState<IConversation[]>([]);
     const [selectedConversation, setselectedConversation] = useState<any>({});
@@ -213,7 +213,7 @@ const Messenger = () => {
                                         <Avatar alt={receiverDetail?.firstName} src={receiverDetail.userImage} /> <span className="text-user-name">{receiverDetail?.firstName} {receiverDetail?.lastName}</span>
                                     </Box>
                                     <IconButton size="large"
-                                        color="inherit" onClick={() => setReceiverDetails(null)}>
+                                        color="inherit" onClick={() => setReceiverDetails({} as IUser)}>
                                         <CancelIcon />
                                     </IconButton>
                                 </Box>

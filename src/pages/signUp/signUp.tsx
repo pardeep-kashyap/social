@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,14 +6,12 @@ import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { CREATE_USER } from '../../gqlOperations/queries';
 import { useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
-const theme = createTheme();
+import { AppRouteContant } from '../../constants';
 
 export default function SignUp() {
     const [signUpUser, { data, error, loading }] = useMutation(CREATE_USER)
@@ -48,7 +45,7 @@ export default function SignUp() {
     }
     if (data && data.signUpUser) {
         return (<div>
-            Sign up Successfull please  <Link to="/signIn">
+            Sign up Successfull please  <Link to={AppRouteContant.SIGNIN}>
                 SignIn
             </Link>
         </div>)
@@ -129,7 +126,7 @@ export default function SignUp() {
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <Link to="/signIn">
+                                <Link to={AppRouteContant.SIGNIN}>
                                     {"Already have an account? SignIn"}
                                 </Link>
                             </Grid>

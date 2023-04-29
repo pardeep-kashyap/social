@@ -16,7 +16,7 @@ const UserList = ({ onClick, selectedUser, param }: { onClick: any, selectedUser
 
     return <div className="chat-users">
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            {data && data.userSearch && data.userSearch.map((user: IUser, key: number) => <ListItem sx={{ backgroundColor: selectedUser?.id === user?.id ? 'lightgray' : '', cursor: 'pointer' }} key={key + "_" + Math.random()} alignItems="flex-start" onClick={() => onClick(user)}>
+            {data && data.userSearch && data.userSearch.map((user: IUser, key: number) => selectedUser?.id !== user?.id ? <ListItem key={key + "_" + Math.random()} alignItems="flex-start" onClick={() => onClick(user)}>
                 <ListItemAvatar>
                     <Avatar alt={user.firstName} src={user.userImage} />
                 </ListItemAvatar>
@@ -37,7 +37,7 @@ const UserList = ({ onClick, selectedUser, param }: { onClick: any, selectedUser
                     }
                 >
                 </ListItemText>
-            </ListItem>)}
+            </ListItem> : <></>)}
         </List>
     </div>
 }

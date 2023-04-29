@@ -14,6 +14,7 @@ import { useRef } from 'react';
 import Loader from '../../components/Loader/Loader';
 import { getAPICall } from '../../apiService';
 import { GOOGLE_SIGN } from '../../endPoints';
+import { AppRouteContant } from '../../constants';
 declare global {
     interface Window {
         google: any;
@@ -181,7 +182,7 @@ export default function SignIn() {
 
                         <Grid container>
                             <Grid item sx={{ margin: 'auto' }}>
-                                Don't have an account? <Link to="/signUp" >
+                                Don't have an account? <Link to={AppRouteContant.SIGNUP} >
                                     {"Sign Up"}
                                 </Link>
                             </Grid>

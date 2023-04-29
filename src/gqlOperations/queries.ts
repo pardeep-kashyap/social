@@ -99,3 +99,35 @@ query getPostbyAuther($userid:ID!){
   }
 }
 `
+
+export const GET_FOLLWER_POST = gql`
+query getPostbyAuther($userid:ID!){
+  posts(author:$userid){
+    _id
+    caption
+    images
+    tags
+    author
+    postAuthoredDetails{
+      lastName
+      firstName
+      userImage
+    }
+    comments{
+      images
+      author
+      likes
+      text
+    }
+    location{
+      lat
+      lng
+      name
+    }
+    likes
+    createdAt{
+      date
+    }
+  }
+}
+`
