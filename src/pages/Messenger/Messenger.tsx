@@ -194,7 +194,7 @@ const Messenger = () => {
         <div className="messenger">
 
             {
-                !receiverDetail ? <div className="messenger-users">
+                !receiverDetail._id ? <div className="messenger-users">
                     <SearchInput onChange={onTextChange} value={input} />
                     {
                         input.length > 0 ? <UserList selectedUser={currentUser} param={input} onClick={OnConversationCreation} /> : <ConversationsList conversations={conversations} onClick={onUserClick} selectedUser={currentUser} />
