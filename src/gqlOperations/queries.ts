@@ -131,3 +131,36 @@ query getPostbyAuther($userId:ID!){
   }
 }
 `
+
+export const GETALLPOST = gql`
+query allPost{
+  allPost{
+    _id
+    caption
+    images
+    tags
+    author
+    postAuthoredDetails{
+      lastName
+      firstName
+      userImage
+    }
+    comments{
+      images
+      author
+      likes
+      text
+    }
+    location{
+      lat
+      lng
+      name
+    }
+    likes
+    createdAt{
+      date
+    }
+}
+  }
+
+`

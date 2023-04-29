@@ -27,7 +27,7 @@ const Search = () => {
         <div className="search-container">
             <SearchInput onChange={onTextChange} value={input} />
             {
-                input ? <UserList selectedUser={{} as IUser} param={input} onClick={onUserSelection} /> : null
+                input ? <div className="search-list"><UserList selectedUser={{} as IUser} param={input} onClick={onUserSelection} /></div> : null
 
             }
 

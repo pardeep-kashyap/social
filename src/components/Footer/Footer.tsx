@@ -1,13 +1,12 @@
 import HomeIcon from '@mui/icons-material/Home';
 import IconButton from '@mui/material/IconButton/IconButton';
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AppRouteContant } from '../../constants';
-
+import ExploreIcon from '@mui/icons-material/Explore';
 const Footer = () => {
     const [currentUser, setCurrentUser] = useState<any>();
     useEffect(() => {
@@ -24,7 +23,7 @@ const Footer = () => {
         <NavLink to={'/reel'}>
             <IconButton size="large"
                 color="inherit">
-                <VideoLibraryIcon />
+                <ExploreIcon />
             </IconButton>
         </NavLink>
         <NavLink to={AppRouteContant.NEW}>

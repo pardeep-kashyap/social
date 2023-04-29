@@ -22,6 +22,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from './pages/Search/Search';
 import { AppRouteContant } from './constants';
+import Reel from './pages/Reel/Reel';
 
 const queryClient = new QueryClient()
 
@@ -93,7 +94,7 @@ function App() {
                 <Route path={AppRouteContant.REEL} element={
                   <Protected>
                     <Layout>
-                      <Messenger />
+                      <Reel />
                     </Layout>
                   </Protected>
                 } />
