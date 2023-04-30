@@ -105,7 +105,7 @@ const ProfileAction = (props: any) => {
     }
 
     const toggleFollowUnFollow = () => {
-        if (profileDetails.followers.includes(loginUserId)) {
+        if (profileDetails?.followers?.includes(loginUserId)) {
             onUnFollow();
         } else {
             onFollow();
@@ -119,7 +119,7 @@ const ProfileAction = (props: any) => {
                     <p>Post</p>
                 </div>
                 <div>
-                    <p>{profileDetails.followers?.length}</p>
+                    <p>{profileDetails?.followers?.length}</p>
                     <p>Follower</p>
                 </div>
 
@@ -132,7 +132,7 @@ const ProfileAction = (props: any) => {
             <div className="profile-action">
                 {
                     loginUserId === profileId ?
-                        <Button variant="outlined">Edit Profile</Button> : <><Button onClick={toggleFollowUnFollow} variant="outlined">{profileDetails.followers.includes(loginUserId) ? 'UnFollow' : 'Follow'}</Button>
+                        <Button variant="outlined">Edit Profile</Button> : <><Button onClick={toggleFollowUnFollow} variant="outlined">{profileDetails?.followers?.includes(loginUserId) ? 'UnFollow' : 'Follow'}</Button>
                             <Link to={AppRouteContant.MESSAGE}><Button variant="outlined">Message</Button></Link>  </>
                 }
             </div>

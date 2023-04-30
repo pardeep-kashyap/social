@@ -3,7 +3,7 @@ export const AppRouteContant = {
     SIGNIN: '/signIn',
     SIGNUP: '/signUp',
     NEW: '/new',
-    POST_DETAIL: '/post/:postId',
+    POST_DETAIL: '/post',
     MESSAGE: '/message',
     SEARCH: '/search',
     REEL: '/reel',

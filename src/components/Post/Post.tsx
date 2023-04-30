@@ -1,5 +1,5 @@
-import { IconButton, Icon, Menu, MenuItem, Typography } from "@mui/material"
-import { useState } from "react";
+import { IconButton, Icon, Menu, MenuItem, Typography, CircularProgress } from "@mui/material"
+import { useEffect, useState } from "react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -8,8 +8,8 @@ import CommentIcon from '@mui/icons-material/Comment';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import './Post.scss';
 import { Link } from "react-router-dom";
-import { putAPICall } from "../../apiService";
-import { UPDATE_POST_API } from "../../endPoints";
+import { postAPICall, putAPICall } from "../../apiService";
+import { CREATE_NEW_COMMENT, UPDATE_POST_API } from "../../endPoints";
 
 interface IPost {
     caption: string;
@@ -38,10 +38,13 @@ interface IPost {
         date: Date;
     };
 }
-const Post = ({ caption, images, likes, postAuthoredDetails, author, _id }: IPost) => {
+const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _id }: IPost) => {
+    const userId = localStorage.getItem('id');
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [isLiked, setIsLiked] = useState(likes.includes(localStorage.getItem('id') as string));
     const [likesLocal, setLikes] = useState(likes);
+    const [postCommentInProgress, setPostCommentInProgress] = useState(false);
+    const [comment, setComment] = useState('');
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -52,7 +55,7 @@ const Post = ({ caption, images, likes, postAuthoredDetails, author, _id }: IPos
     };
 
     const toggleLike = () => {
-        const likes = !isLiked ? [localStorage.getItem('id')] : [];
+        const likes = !isLiked ? [userId] : [];
         (async () => {
             try {
                 const response = await putAPICall({ baseUrl: `${UPDATE_POST_API}/${_id}`, body: { likes } });
@@ -64,6 +67,24 @@ const Post = ({ caption, images, likes, postAuthoredDetails, author, _id }: IPos
                 console.log(error);
             }
         })()
+    }
+
+    const addNewComment = async (evt: any) => {
+        evt.preventDefault();
+
+        setPostCommentInProgress(true)
+        try {
+            const body = {
+                text: 'My Commnet',
+                author: userId,
+                postId: _id
+            };
+            const response = await postAPICall({ baseUrl: `${CREATE_NEW_COMMENT}`, body: body });
+            setComment('')
+        } catch (error) {
+            console.log(error);
+        }
+        setPostCommentInProgress(false)
     }
 
     return (<div className="post">
@@ -130,12 +151,18 @@ const Post = ({ caption, images, likes, postAuthoredDetails, author, _id }: IPos
                     }
 
                 </IconButton>
-                <IconButton
-                    size="large"
-                    color="inherit"
-                >
-                    <CommentIcon />
-                </IconButton>
+                <Link to={`post/${_id}`}>
+                    <IconButton
+                        size="large"
+                        color="inherit"
+                        className="comment"
+                    >
+                        <CommentIcon />
+                    </IconButton>
+                    {comments.length > 0 && comments.length} <span>Comment</span>
+
+                </Link>
+
             </div>
             <div className="more-icon">
                 <IconButton
@@ -159,6 +186,17 @@ const Post = ({ caption, images, likes, postAuthoredDetails, author, _id }: IPos
                 </button>
                 <span className="post-caption--text">{caption}</span>
             </div>
+        </div>
+        <div>
+            <form className="add-new-comment" onSubmit={addNewComment}>
+                <div>
+                    <Avatar alt={postAuthoredDetails.firstName} className="post-profile-pic-button" src={postAuthoredDetails.userImage} />
+                    <input required name="comment" type="text" value={comment} onChange={(evt) => setComment(evt.target.value)} placeholder="Add a comment..." />
+
+                </div>
+
+                {postCommentInProgress ? <CircularProgress sx={{ margin: 'auto', marginRight: 'var(--gutter)' }} size={20} thickness={1} /> : <button type="submit" >Post</button>}
+            </form>
         </div>
     </div>)
 }

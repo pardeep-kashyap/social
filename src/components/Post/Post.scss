@@ -47,6 +47,14 @@
         color: #baadc6;
     }
 
+    .post-actions button.comment {
+        padding-right: 8px;
+    }
+
+    .post-actions span {
+        color: gray;
+    }
+
     .post-detail {
         height: 250px;
         border: 1px solid lightgray;
@@ -88,6 +96,16 @@
         color: var(--black);
         font-weight: var(--font-weight-ExtraLight);
         padding-left: calc(var(--gutter)/2);
+    }
 
+    .add-new-comment>div {
+        display: flex;
+        gap: var(--gutter);
+    }
+
+    .add-new-comment {
+        display: flex;
+        padding: var(--gutter) 0;
+        justify-content: space-between;
     }
 }

@@ -81,12 +81,7 @@ query getPostbyAuther($userid:ID!){
       firstName
       userImage
     }
-    comments{
-      images
-      author
-      likes
-      text
-    }
+    comments
     location{
       lat
       lng
@@ -113,12 +108,7 @@ query getPostbyAuther($userId:ID!){
       firstName
       userImage
     }
-    comments{
-      images
-      author
-      likes
-      text
-    }
+    comments
     location{
       lat
       lng
@@ -145,12 +135,7 @@ query allPost{
       firstName
       userImage
     }
-    comments{
-      images
-      author
-      likes
-      text
-    }
+    comments
     location{
       lat
       lng
@@ -162,5 +147,30 @@ query allPost{
     }
 }
   }
-
+`
+export const GET_POST_BY_ID = gql`
+query getPostById($postId:ID!){
+  post(postId:$postId){
+    _id
+    caption
+    images
+    tags
+    author
+    postAuthoredDetails{
+      lastName
+      firstName
+      userImage
+    }
+    comments
+    location{
+      lat
+      lng
+      name
+    }
+    likes
+    createdAt{
+      date
+    }
+}
+  }
 `

@@ -77,7 +77,7 @@ function App() {
                     </Layout>
                   </Protected>
                 } />
-                <Route path={AppRouteContant.POST_DETAIL} element={
+                <Route path={`${AppRouteContant.POST_DETAIL}/:postId`} element={
                   <Protected>
                     <Layout>
                       <PostDetail />
