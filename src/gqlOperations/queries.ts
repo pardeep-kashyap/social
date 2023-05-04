@@ -81,7 +81,7 @@ query getPostbyAuther($userid:ID!){
       firstName
       userImage
     }
-    comment
+    comments
     location{
       lat
       lng

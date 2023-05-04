@@ -13,6 +13,11 @@
         padding: 0 var(--gutter);
     }
 
+    .profile-post {
+        padding: var(--gutter);
+        ;
+    }
+
     .Profile--details .MuiTypography-body1 {
         text-transform: capitalize;
         text-align: center;

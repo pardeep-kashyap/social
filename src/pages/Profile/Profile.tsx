@@ -71,7 +71,7 @@ const Profile = () => {
             </IconButton>
         </div>
         <Divider></Divider>
-        <div>
+        <div className="profile-post">
             {userPost?.posts.length ? userPost?.posts?.map((post: any, index: number) => (
                 <Post {...post} key={index + '_post'} />
             )) : <div className="new-post"> {localStorage.getItem('id') === profileId ? <Link to={AppRouteContant.NEW}><Button variant="contained">Create New Post</Button></Link> : 'No Post'}  </div>

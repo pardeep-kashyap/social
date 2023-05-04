@@ -322,3 +322,7 @@ body:not(:hover) ::-webkit-scrollbar {
   border: none;
   margin: auto;
 }
+
+svg[data-testid="FavoriteIcon"] {
+  color: var(--theme);
+}
