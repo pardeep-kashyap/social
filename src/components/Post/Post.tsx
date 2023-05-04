@@ -37,14 +37,13 @@ interface IPost {
     createdAt: {
         date: Date;
     };
+    isComment?: boolean
 }
-const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _id }: IPost) => {
+const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _id, isComment }: IPost) => {
     const userId = localStorage.getItem('id');
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [isLiked, setIsLiked] = useState(likes.includes(localStorage.getItem('id') as string));
     const [likesLocal, setLikes] = useState(likes);
-    const [postCommentInProgress, setPostCommentInProgress] = useState(false);
-    const [comment, setComment] = useState('');
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -67,24 +66,6 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
                 console.log(error);
             }
         })()
-    }
-
-    const addNewComment = async (evt: any) => {
-        evt.preventDefault();
-
-        setPostCommentInProgress(true)
-        try {
-            const body = {
-                text: 'My Commnet',
-                author: userId,
-                postId: _id
-            };
-            const response = await postAPICall({ baseUrl: `${CREATE_NEW_COMMENT}`, body: body });
-            setComment('')
-        } catch (error) {
-            console.log(error);
-        }
-        setPostCommentInProgress(false)
     }
 
     return (<div className="post">
@@ -187,17 +168,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
                 <span className="post-caption--text">{caption}</span>
             </div>
         </div>
-        <div>
-            <form className="add-new-comment" onSubmit={addNewComment}>
-                <div>
-                    <Avatar alt={postAuthoredDetails.firstName} className="post-profile-pic-button" src={postAuthoredDetails.userImage} />
-                    <input required name="comment" type="text" value={comment} onChange={(evt) => setComment(evt.target.value)} placeholder="Add a comment..." />
 
-                </div>
-
-                {postCommentInProgress ? <CircularProgress sx={{ margin: 'auto', marginRight: 'var(--gutter)' }} size={20} thickness={1} /> : <button type="submit" >Post</button>}
-            </form>
-        </div>
     </div>)
 }
 

@@ -1,3 +1,22 @@
 .post-container {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .add-new-comment>div {
+        display: flex;
+        gap: var(--gutter);
+    }
+
+    .add-new-comment {
+        display: flex;
+        padding: var(--gutter) 0;
+        justify-content: space-between;
+    }
+
+    .comment-text {
+        display: flex;
+        gap: var(--gutter);
+        flex-direction: column;
+    }
 }
