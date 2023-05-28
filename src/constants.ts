@@ -7,5 +7,6 @@ export const AppRouteContant = {
     MESSAGE: '/message',
     SEARCH: '/search',
     REEL: '/reel',
+    SETUP_PROFILE: '/setupProfile',
     PROFILE: '*'
 }

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import { AppRouteContant } from "../../constants";
 import Search from "../Search/Search";
+import './Reel.scss';
 
 const Reel = () => {
     const { data, error, loading } = useQuery(GETALLPOST)
@@ -13,11 +14,12 @@ const Reel = () => {
     if (error) return (<div>`Error! ${error?.message}`;</div>)
 
     return (
-        <div className="post-container">
+        <div className="reel-container">
             <Search />
-
             {data?.allPost.length ? data?.allPost?.map((quote: any, index: number) => (
-                <Post {...quote} key={index + 'post'} />
+                <div className="post-container" key={index + 'post'} >
+                    <Post {...quote} key={index + 'post'} />
+                </div>
             )) : <div className="new-post"> <Link to={AppRouteContant.NEW}><Button variant="contained">Create New Post</Button></Link> </div>
             }
         </div >

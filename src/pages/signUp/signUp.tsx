@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CREATE_USER } from '../../gqlOperations/queries';
 import { useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
@@ -16,6 +16,7 @@ import { AppRouteContant } from '../../constants';
 export default function SignUp() {
     const [signUpUser, { data, error, loading }] = useMutation(CREATE_USER)
     console.log("data", data)
+    const navigate = useNavigate();
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -26,11 +27,16 @@ export default function SignUp() {
                     lastName: formData.get('lastName'),
                     email: formData.get('email'),
                     password: formData.get('password'),
+                    username: formData.get('username'),
                 }
             }
         });
     };
 
+
+    if (data && data.signUpUser) {
+        navigate(AppRouteContant.SIGNIN);
+    }
     if (loading) return (<Loader />)
 
     if (error?.message) {
@@ -71,7 +77,7 @@ export default function SignUp() {
                     <Typography component="h1" variant="h5">
                         Sign Up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" noValidate noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -106,6 +112,16 @@ export default function SignUp() {
                             margin="normal"
                             required
                             fullWidth
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
+                            autoFocus
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
                             name="password"
                             label="Password"
                             type="password"
@@ -122,12 +138,15 @@ export default function SignUp() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Create
                         </Button>
                         <Grid container>
                             <Grid item>
+                                Already have an account?
                                 <Link to={AppRouteContant.SIGNIN}>
-                                    {"Already have an account? SignIn"}
+                                    <Button variant='text'>
+                                        {"SignIn"}
+                                    </Button>
                                 </Link>
                             </Grid>
                         </Grid>

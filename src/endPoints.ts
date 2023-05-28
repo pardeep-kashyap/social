@@ -9,6 +9,7 @@ export const FETCH_CONVERSATION_MESSAGES = `${BASE_URL}api/conversation/fetch/me
 export const SEND_MESSAGE = `${BASE_URL}api/message/send`;
 export const FOLLOW_USER = `${BASE_URL}api/user/follow`;
 export const UN_FOLLOW_USER = `${BASE_URL}api/user/unFollow`;
+export const UPDATE_USER = `${BASE_URL}api/user/update`;
 export const CREATE_NEW_COMMENT = `${BASE_URL}api/comment/create`;
 export const UPDATE_COMMENT = `${BASE_URL}api/comment/update`;
 export const DELETE_COMMENT = `${BASE_URL}api/comment/delete`;

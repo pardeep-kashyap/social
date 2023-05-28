@@ -7,11 +7,12 @@ import './AddNew.scss';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ReactGoogleAutocomplete from "react-google-autocomplete";
+import EmojiPicker from "emoji-picker-react";
 const AddNew = () => {
     const [currentMachine, sendToMachine] = useContext(MachineContext);
     const [image, setImage] = useState<any>(null);
     const [input, setInput] = useState<any>('');
-    const [showEmojis, setShowEmojis] = useState<boolean>(false);
+    const [emojiModel, toggleEmojiModel] = useState<boolean>(false);
     const navigate = useNavigate()
 
     const handleChange = (event: any) => {
@@ -54,8 +55,27 @@ const AddNew = () => {
             setInput(evt.target.value);
         }
     }
+
+    const toggleEmoji = (evt: any) => {
+        evt.preventDefault();
+        toggleEmojiModel(!emojiModel)
+    }
+    const onEmojiClick = (emojiData: EmojiClickData, event: MouseEvent) => {
+        let sym = emojiData.unified.split("-");
+        let codesArray: any[] = [];
+        sym.forEach((el) => codesArray.push("0x" + el));
+        let emoji = String.fromCodePoint(...codesArray);
+        setInput(input + emoji);
+    };
+
     return (
         <div className="add-new-post">
+            {
+                emojiModel && <div className="emoji-container">
+                    <EmojiPicker onEmojiClick={onEmojiClick} autoFocusSearch={false} />
+                </div>
+            }
+
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <div className="post-title-container">
                     <TextField
@@ -72,7 +92,9 @@ const AddNew = () => {
                         value={input}
                         onChange={onTextChange}
                     />
-                    <button className="emoji-button" >
+                    <button className="emoji-button"
+                        onClick={toggleEmoji}
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="icon"
@@ -112,7 +134,7 @@ const AddNew = () => {
                         </div>
                     )}
                 </div>
-                <div className="location_container">
+                {/* <div className="location_container">
                     <LocationOnIcon /> <ReactGoogleAutocomplete
                         style={{ width: "90%" }}
                         className="location_input"
@@ -127,7 +149,7 @@ const AddNew = () => {
                         apiKey={''}
                     />
 
-                </div>
+                </div> */}
 
 
 

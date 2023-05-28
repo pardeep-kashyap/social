@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import Loader from "../../components/Loader/Loader";
 import Post from "../../components/Post/Post";
-import { GET_FOLLWER_POST, GET_USER_BY_ID } from "../../gqlOperations/queries";
+import { GET_FOLLWER_POST } from "../../gqlOperations/queries";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import { AppRouteContant } from "../../constants";
@@ -15,8 +15,8 @@ const Home = () => {
     return (
         <div className="homepage">
             {data?.postsByFollower.length ? data?.postsByFollower?.map((quote: any, index: number) => (
-                <div className="post-container">
-                    <Post {...quote} key={index + 'post'} />
+                <div className="post-container" key={index + 'post'} >
+                    <Post {...quote} />
                 </div>
             )) : <div className="new-post"> <Link to={AppRouteContant.NEW}><Button variant="contained">Create New Post</Button></Link> </div>
             }

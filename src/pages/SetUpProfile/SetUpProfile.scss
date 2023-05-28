@@ -1,0 +1,34 @@
+.SetUpProfile {
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+    padding: 0 var(--gutter);
+
+    &>div>div {
+        margin: auto;
+    }
+
+    .user-form {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: var(--gutter);
+        width: 100%;
+    }
+
+    .user-form-action {
+        display: flex;
+        justify-content: flex-start;
+        gap: var(--gutter);
+    }
+
+    .SetUpProfile__input {
+        display: none;
+    }
+
+    .SetUpProfile-change {
+        color: var(--theme);
+        cursor: pointer;
+        font-weight: var(--font-weight-bold);
+    }
+}

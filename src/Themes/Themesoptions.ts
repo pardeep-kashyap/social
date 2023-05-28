@@ -91,7 +91,8 @@ export const themeOptions: ThemeOptions = {
             fontSize: "14px",
         },
         caption: {
-            fontFamily: 'var(--primary-font-family)'
+            fontFamily: 'var(--primary-font-family)',
+            fontWeight: 'var(----font-weight-Light)',
         }
     }
 };

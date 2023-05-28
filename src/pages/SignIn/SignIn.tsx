@@ -92,7 +92,7 @@ export default function SignIn() {
 
     if (data && data.signInUser) {
         setLoginData(data.signInUser);
-        navigate("/");
+        navigate(AppRouteContant.HOME);
     }
 
     if (loading) return (<Loader />)
@@ -182,7 +182,9 @@ export default function SignIn() {
                         <Grid container>
                             <Grid item sx={{ margin: 'auto' }}>
                                 Don't have an account? <Link to={AppRouteContant.SIGNUP} >
-                                    {"Sign Up"}
+                                    <Button variant='text'>
+                                        {"Sign Up"}
+                                    </Button>
                                 </Link>
                             </Grid>
                         </Grid>

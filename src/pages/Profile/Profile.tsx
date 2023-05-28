@@ -1,18 +1,19 @@
 import { useQuery } from "@apollo/client";
-import { Avatar, Button, Divider, IconButton, Typography } from "@mui/material";
+import { Avatar, Button, Divider, IconButton, Typography, Box } from "@mui/material";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GET_ALL_POST_BY_USER, GET_USER_BY_ID } from "../../gqlOperations/queries";
-import './Profile.scss';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 import Post from "../../components/Post/Post";
 import Settings from "../../components/Setting/Settings";
 import Loader from "../../components/Loader/Loader";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { getAPICall } from "../../apiService";
-import { FOLLOW_USER, UN_FOLLOW_USER } from "../../endPoints";
 import { AppRouteContant } from "../../constants";
+import ProfileAction from "../../components/ProfileAction/ProfileAction";
+import { IPost, POST_VIEW } from "../../types";
+import './Profile.scss';
+import PostGrid from "../../components/PostGrid/PostGrid";
 
 const Profile = () => {
     const location = useLocation();
@@ -21,16 +22,17 @@ const Profile = () => {
     const profileId = location.pathname.split('/')[1];
     const loginUserId = localStorage.getItem('id');
     const { data, loading: profileLoading } = useQuery(GET_USER_BY_ID, { variables: { userid: profileId } });
-    const { data: userPost, error, loading } = useQuery(GET_ALL_POST_BY_USER, { variables: { userid: profileId } })
+    const { data: userPost, error, loading } = useQuery(GET_ALL_POST_BY_USER, { variables: { userid: profileId } });
+
+    const [selectedPostView, setPostView] = useState(POST_VIEW.ROW)
     const handleClose = () => {
         setOpen(false);
     };
 
     const logout = () => {
         localStorage.clear();
-        navigate(AppRouteContant.SIGNIN)
+        navigate(AppRouteContant.SIGNIN);
     }
-
 
 
     if (loading || profileLoading) return (<Loader />)
@@ -49,6 +51,11 @@ const Profile = () => {
                         <Typography variant="body1">
                             {data?.user.firstName} {data?.user.lastName}
                         </Typography>
+                        <Box className="pt-1">
+                            <Typography variant="caption">
+                                {data?.user?.bio}
+                            </Typography>
+                        </Box>
                     </span>
                 </div>
             </div>
@@ -58,11 +65,16 @@ const Profile = () => {
         <Divider sx={{ marginTop: "var(--gutter)" }}></Divider>
         <div className="Profile--orientation">
             <IconButton size="large"
-                color="inherit">
+                color="inherit"
+                className={selectedPostView === POST_VIEW.ROW ? 'active' : ''}
+                onClick={() => setPostView(POST_VIEW.ROW)}
+            >
                 <TableRowsIcon />
             </IconButton>
             <IconButton size="large"
-                color="inherit">
+                className={selectedPostView === POST_VIEW.GRID ? 'active' : ''}
+
+                color="inherit" onClick={() => setPostView(POST_VIEW.GRID)}>
                 <ViewColumnIcon />
             </IconButton>
             <IconButton size="large"
@@ -72,9 +84,7 @@ const Profile = () => {
         </div>
         <Divider></Divider>
         <div className="profile-post">
-            {userPost?.posts.length ? userPost?.posts?.map((post: any, index: number) => (
-                <Post {...post} key={index + '_post'} />
-            )) : <div className="new-post"> {localStorage.getItem('id') === profileId ? <Link to={AppRouteContant.NEW}><Button variant="contained">Create New Post</Button></Link> : 'No Post'}  </div>
+            {userPost?.posts.length ? selectedPostView === POST_VIEW.GRID ? <PostGrid posts={userPost?.posts} /> : <RowWisePost posts={userPost?.posts} /> : <div className="new-post"> {localStorage.getItem('id') === profileId ? <Link to={AppRouteContant.NEW}><Button variant="contained">Create New Post</Button></Link> : 'No Post'}  </div>
             }
         </div>
         <Settings
@@ -85,59 +95,14 @@ const Profile = () => {
 
 export default Profile;
 
-
-const ProfileAction = (props: any) => {
-    const { loginUserId, profileId, profile, postCount } = props;
-    const [profileDetails, setProfileDetails] = useState(profile);
-
-    const onFollow = async () => {
-        const user = await getAPICall(
-            `${FOLLOW_USER}/${profileId}`, {}
-        )
-        setProfileDetails(user);
-    }
-
-    const onUnFollow = async () => {
-        const user = await getAPICall(
-            `${UN_FOLLOW_USER}/${profileId}`, {}
-        );
-        setProfileDetails(user);
-    }
-
-    const toggleFollowUnFollow = () => {
-        if (profileDetails?.followers?.includes(loginUserId)) {
-            onUnFollow();
-        } else {
-            onFollow();
-        }
-    }
-    return (
-        <div className="w-full">
-            <div className="profile-stats">
-                <div >
-                    <p>{postCount}</p>
-                    <p>Post</p>
-                </div>
-                <div>
-                    <p>{profileDetails?.followers?.length}</p>
-                    <p>Follower</p>
-                </div>
-
-                <div>
-                    <p>{profileDetails?.following?.length}</p>
-                    <p>Following</p>
-                </div>
-
+const RowWisePost = ({ posts = [] }: { posts: IPost[] }) => (
+    <>
+        {posts?.map((post: IPost, index: number) => (
+            <div className="post-container" key={index + 'post'} >
+                <Post {...post} />
             </div>
-            <div className="profile-action">
-                {
-                    loginUserId === profileId ?
-                        <Button variant="outlined">Edit Profile</Button> : <><Button onClick={toggleFollowUnFollow} variant="outlined">{profileDetails?.followers?.includes(loginUserId) ? 'UnFollow' : 'Follow'}</Button>
-                            <Link to={AppRouteContant.MESSAGE}><Button variant="outlined">Message</Button></Link>  </>
-                }
-            </div>
+        ))}
+    </>
+)
 
-        </div>
 
-    )
-}

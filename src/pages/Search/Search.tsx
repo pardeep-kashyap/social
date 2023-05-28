@@ -6,8 +6,8 @@ import './Search.scss'
 import { useState } from "react";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import UserList from "../../components/UserList/UserList";
-import { IUser } from "../Messenger/Messenger";
 import { useNavigate } from "react-router-dom";
+import { IUser } from "../../types";
 
 const Search = () => {
     const [input, setInput] = useState<any>('');
@@ -30,7 +30,6 @@ const Search = () => {
                 input ? <div className="search-list"><UserList selectedUser={{} as IUser} param={input} onClick={onUserSelection} /></div> : null
 
             }
-
 
         </div >
     )

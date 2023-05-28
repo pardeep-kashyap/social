@@ -10,35 +10,8 @@ import './Post.scss';
 import { Link } from "react-router-dom";
 import { postAPICall, putAPICall } from "../../apiService";
 import { CREATE_NEW_COMMENT, UPDATE_POST_API } from "../../endPoints";
+import { IPost } from "../../types";
 
-interface IPost {
-    caption: string;
-    images: string[];
-    tags: string[];
-    _id: string,
-    author: string;
-    postAuthoredDetails: {
-        lastName: string;
-        firstName: string;
-        userImage: string;
-    };
-    comments: {
-        images: string[];
-        author: string;
-        likes: number;
-        text: string;
-    }[];
-    location: {
-        lat: number;
-        lng: number;
-        name: string;
-    };
-    likes: string[];
-    createdAt: {
-        date: Date;
-    };
-    isComment?: boolean
-}
 const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _id, isComment }: IPost) => {
     const userId = localStorage.getItem('id');
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -140,7 +113,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
                     >
                         <CommentIcon />
                     </IconButton>
-                    {comments.length > 0 && comments.length} <span>Comment</span>
+                    <span> {comments.length > 0 && comments.length} Comments</span>
 
                 </Link>
 
@@ -157,7 +130,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
         </div>
         <div className="post-bottom-details">
             <div className="post-likes">
-                {likesLocal.length} likes
+                {likesLocal.length} Likes
             </div>
             <div className="post-caption">
                 <button className="post-profile-name">

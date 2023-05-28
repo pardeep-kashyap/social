@@ -16,6 +16,21 @@ export const GET_ALL_USER = gql`query getAllUsers{
 }`;
 
 export const SEARCH_USER = gql`query SearchUser($param:String!){
+  populate(param:$param){
+    id 
+    firstName
+    lastName 
+    email
+    userImage
+    saved
+    username
+    followers
+    following
+    bio
+  }
+}`
+
+export const SEARCH_FROM_FOLLOWERS = gql`query SearchUser($param:String!){
   userSearch(param:$param){
     id 
     firstName

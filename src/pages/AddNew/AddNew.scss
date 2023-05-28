@@ -86,4 +86,20 @@
         margin: auto;
     }
 
+
+    .emoji-container {
+        position: absolute;
+        top: 120px;
+
+    }
+
+    .emoji-button {
+        width: 45px;
+        height: 45px;
+        color: gray;
+    }
+
+    .emoji-button.active {
+        color: var(--theme-color-primary);
+    }
 }

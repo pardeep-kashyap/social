@@ -23,6 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Search from './pages/Search/Search';
 import { AppRouteContant } from './constants';
 import Reel from './pages/Reel/Reel';
+import SetUpProfile from './pages/SetUpProfile/SetUpProfile';
 
 const queryClient = new QueryClient()
 
@@ -88,6 +89,13 @@ function App() {
                   <Protected>
                     <Layout>
                       <Messenger />
+                    </Layout>
+                  </Protected>
+                } />
+                <Route path={AppRouteContant.SETUP_PROFILE} element={
+                  <Protected>
+                    <Layout>
+                      <SetUpProfile />
                     </Layout>
                   </Protected>
                 } />

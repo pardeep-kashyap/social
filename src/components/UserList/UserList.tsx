@@ -1,16 +1,13 @@
 import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui/material"
 import React from "react"
-import { postAPICall } from "../../apiService"
-import { CREATE_CONVERSATION } from "../../endPoints"
-import { IUser } from "../../pages/Messenger/Messenger"
 import { useQuery } from "@apollo/client";
 import { SEARCH_USER } from "../../gqlOperations/queries"
 import Loader from "../Loader/Loader"
+import { IUser } from "../../types";
 
 const UserList = ({ onClick, selectedUser, param }: { onClick: any, selectedUser: IUser, param: string }) => {
-    const { data, error, loading } =
+    const { data, loading } =
         useQuery(SEARCH_USER, { variables: { param } });
-
 
     if (loading) return (<Loader />);
 
@@ -32,7 +29,6 @@ const UserList = ({ onClick, selectedUser, param }: { onClick: any, selectedUser
                             >
                                 {user.email}
                             </Typography>
-
                         </React.Fragment>
                     }
                 >

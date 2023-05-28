@@ -1,8 +1,19 @@
 import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui/material";
 import React from "react";
 import { IConversation, IUser } from "../../pages/Messenger/Messenger";
-
+import './ConversationList.scss';
 const ConversationsList = ({ conversations = [], onClick, selectedUser }: { conversations: IConversation[], onClick: any, selectedUser: IUser }) => {
+    if (!conversations?.length) {
+        return <div className="no-conversation">
+            <img src="./talking.png" />
+            <div>
+                <Typography component="span"
+                    variant="body1">
+                    Looks like you have not started  <br />any conversation?
+                </Typography>
+            </div>
+        </div>
+    }
     return conversations && conversations.length ? <div className="chat-users">
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             {conversations.map((conversation: any, key: number) => {
