@@ -94,6 +94,7 @@ const Messenger = () => {
                 users: [user.id, currentUser.id]
             }
         });
+        setReceiverDetails(user);
         setselectedConversation(result);
         setConversationId(result._id);
 
@@ -127,13 +128,14 @@ const Messenger = () => {
         let isConversationExit: boolean = false;
         conversations.forEach((convo: IConversation) => {
             const userId = [...convo.users.map((user) => user._id)];
-            if (!userId.includes(user.id)) {
+            if (userId.includes(user.id)) {
                 isConversationExit = true;
                 setselectedConversation(convo);
                 setConversationId(convo._id);
+                setReceiverDetails(user);
+                return;
             }
         })
-        setReceiverDetails(user);
         setInput('');
         if (!isConversationExit) {
             createConversation(user)
@@ -142,6 +144,7 @@ const Messenger = () => {
     }
 
     const closeConversation = () => {
+        getAllConversation(currentUser.id);
         setReceiverDetails({} as IUser);
         setConversationId(null);
     }
