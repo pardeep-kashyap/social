@@ -7,7 +7,7 @@ import './AddNew.scss';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ReactGoogleAutocomplete from "react-google-autocomplete";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 const AddNew = () => {
     const [currentMachine, sendToMachine] = useContext(MachineContext);
     const [image, setImage] = useState<any>(null);
@@ -63,7 +63,7 @@ const AddNew = () => {
     const onEmojiClick = (emojiData: EmojiClickData, event: MouseEvent) => {
         let sym = emojiData.unified.split("-");
         let codesArray: any[] = [];
-        sym.forEach((el) => codesArray.push("0x" + el));
+        sym.forEach((el: any) => codesArray.push("0x" + el));
         let emoji = String.fromCodePoint(...codesArray);
         setInput(input + emoji);
     };

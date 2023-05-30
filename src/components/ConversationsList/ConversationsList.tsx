@@ -1,7 +1,7 @@
 import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui/material";
 import React from "react";
-import { IConversation, IUser } from "../../pages/Messenger/Messenger";
 import './ConversationList.scss';
+import { IConversation, IUser } from "../../types";
 const ConversationsList = ({ conversations = [], onClick, selectedUser }: { conversations: IConversation[], onClick: any, selectedUser: IUser }) => {
     if (!conversations?.length) {
         return <div className="no-conversation">
