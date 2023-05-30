@@ -56,7 +56,7 @@ const Messenger = () => {
         const conversationPlayload = {
             body: valueRef?.current?.value,
             sender: currentUser.id,
-            receiver: receiverDetail._id,
+            receiver: receiverDetail._id || receiverDetail.id,
             conversation: selectedConversation._id
         }
         updateMessages(conversationPlayload);
@@ -123,6 +123,7 @@ const Messenger = () => {
     }
 
     const OnConversationCreation = (user: IUser) => {
+        setSelectedUserMessages([]);
         let isConversationExit: boolean = false;
         conversations.forEach((convo: IConversation) => {
             const userId = [...convo.users.map((user) => user._id)];
@@ -132,8 +133,8 @@ const Messenger = () => {
                 setConversationId(convo._id);
             }
         })
-        setSelectedUserMessages([]);
         setReceiverDetails(user);
+        setInput('');
         if (!isConversationExit) {
             createConversation(user)
             return;
@@ -160,7 +161,7 @@ const Messenger = () => {
     return (
         <div className="messenger">
             {
-                !receiverDetail._id ? <div className="messenger-users">
+                !(receiverDetail._id || receiverDetail.id) ? <div className="messenger-users">
                     <SearchInput onChange={onTextChange} value={input} />
                     {
                         input.length > 0 ? <UserList selectedUser={currentUser} param={input} onClick={OnConversationCreation} /> : <ConversationsList conversations={conversations} onClick={onUserClick} selectedUser={currentUser} />
