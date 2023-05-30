@@ -1,3 +1,5 @@
+<img width="119" alt="image" src="https://github.com/pardeep-kashyap/social/assets/20381430/4f8d1a95-b924-4cb4-8ea4-550266777d04">
+
 
 # Scroll Social Media App
 ## Introduction
@@ -81,8 +83,5 @@ https://social-wheat-psi.vercel.app/
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
-
-![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
 
 
