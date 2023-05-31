@@ -15,7 +15,10 @@ const PostDetail = () => {
     const postId = location.pathname.split('/')[2];
     const userId = localStorage.getItem('id');
 
-    const { data, error, loading, refetch } = useQuery(GET_POST_BY_ID, { variables: { postId: postId } })
+    const { data, error, loading, refetch } = useQuery(GET_POST_BY_ID, {
+        variables: { postId: postId },
+        fetchPolicy: 'no-cache'
+    })
     const [postCommentInProgress, setPostCommentInProgress] = useState(false);
     const [comment, setComment] = useState('');
 

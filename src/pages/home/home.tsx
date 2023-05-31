@@ -8,7 +8,12 @@ import { AppRouteContant } from "../../constants";
 import './home.scss'
 
 const Home = () => {
-    const { data, error, loading } = useQuery(GET_FOLLWER_POST, { variables: { userId: localStorage.getItem('id') } })
+    const { data, error, loading } = useQuery(GET_FOLLWER_POST, {
+        variables: {
+            userId: localStorage.getItem('id')
+        },
+        fetchPolicy: 'no-cache'
+    })
     if (loading) return (<Loader />)
     if (error) return (<div>`Error! ${error?.message}`;</div>)
 

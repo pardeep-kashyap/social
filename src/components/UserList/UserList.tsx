@@ -7,7 +7,10 @@ import { IUser } from "../../types";
 
 const UserList = ({ onClick, selectedUser, param }: { onClick: any, selectedUser: IUser, param: string }) => {
     const { data, loading } =
-        useQuery(SEARCH_USER, { variables: { param } });
+        useQuery(SEARCH_USER, {
+            variables: { param },
+            fetchPolicy: 'no-cache'
+        });
 
     if (loading) return (<Loader />);
 

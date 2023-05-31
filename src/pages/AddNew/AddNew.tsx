@@ -1,4 +1,4 @@
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, IconButton } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CREATE_POST, MachineContext } from "../../machine";
@@ -6,7 +6,8 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import './AddNew.scss';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import ReactGoogleAutocomplete from "react-google-autocomplete";
+import CancelIcon from '@mui/icons-material/Cancel';
+
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 const AddNew = () => {
     const [currentMachine, sendToMachine] = useContext(MachineContext);
@@ -72,6 +73,10 @@ const AddNew = () => {
         <div className="add-new-post">
             {
                 emojiModel && <div className="emoji-container">
+                    <IconButton size="large"
+                        color="inherit" onClick={() => toggleEmojiModel(false)}>
+                        <CancelIcon />
+                    </IconButton>
                     <EmojiPicker onEmojiClick={onEmojiClick} autoFocusSearch={false} />
                 </div>
             }
@@ -134,30 +139,13 @@ const AddNew = () => {
                         </div>
                     )}
                 </div>
-                {/* <div className="location_container">
-                    <LocationOnIcon /> <ReactGoogleAutocomplete
-                        style={{ width: "90%" }}
-                        className="location_input"
-                        onPlaceSelected={(place: any) => {
-                            console.log(place);
-                        }}
-                        options={{
-                            types: ["(regions)"],
-                            componentRestrictions: { country: "ru" },
-                        }}
-                        defaultValue="Amsterdam"
-                        apiKey={''}
-                    />
-
-                </div> */}
-
-
 
                 <Button
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    disabled={currentMachine?.value?.posts === 'createPostInProgress'}
                 >
                     Add
                 </Button>

@@ -13,6 +13,7 @@ import { useQuery } from "react-query";
 import { IConversation, IUser } from "../../types";
 import './Messenger.scss';
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
 
 const Messenger = () => {
     const [chatMessages, setMessages] = useState<any[]>([]);
@@ -24,6 +25,10 @@ const Messenger = () => {
     const [selectedUserMessages, setSelectedUserMessages] = useState<any>([]);
     const [conversationId, setConversationId] = useState<string | null>(null);
     const [input, setInput] = useState<any>('');
+    const wrapperRef = useRef(null);
+    const isClickOutSide = useOutsideAlerter(wrapperRef);
+
+
     const [emojiModel, toggleEmojiModel] = useState<boolean>(false);
     const { error } = useQuery({
         enabled: conversationId !== null,
@@ -50,6 +55,12 @@ const Messenger = () => {
         setCurrentUser(user);
         getAllConversation(user.id)
     }, []);
+
+    useEffect(() => {
+        if (isClickOutSide) {
+            toggleEmojiModel(false);
+        }
+    }, [isClickOutSide])
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -192,7 +203,11 @@ const Messenger = () => {
                                 </div>
                                 <Box component="form" sx={{ mt: 1 }} className="messager-chat-box-messages-input" noValidate onSubmit={handleSubmit}>
                                     {
-                                        emojiModel && <div className="emoji-container">
+                                        emojiModel && <div className="emoji-container" ref={wrapperRef}>
+                                            <IconButton size="large"
+                                                color="inherit" onClick={() => toggleEmojiModel(false)}>
+                                                <CancelIcon />
+                                            </IconButton>
                                             <EmojiPicker onEmojiClick={onEmojiClick} autoFocusSearch={false} />
                                         </div>
                                     }
@@ -255,7 +270,7 @@ const ChatMessages = ({ messages = [], receiverDetail, currentUser }: { messages
 
             {messageDetail.sender !== currentUser.id && <Avatar sx={{ textTransform: 'capitalize' }} alt={receiverDetail?.firstName} src={receiverDetail.userImage} />}
             <span>{messageDetail.body}</span>
-            {messageDetail.sender === currentUser.id && <Avatar sx={{ textTransform: 'capitalize' }} alt={currentUser.firstName} src={receiverDetail.userImage} />}
+            {messageDetail.sender === currentUser.id && <Avatar sx={{ textTransform: 'capitalize' }} alt={currentUser.firstName} src={currentUser.userImage} />}
 
         </li>)}
     </ul> : null

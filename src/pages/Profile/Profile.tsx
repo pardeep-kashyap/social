@@ -21,8 +21,14 @@ const Profile = () => {
     const navigate = useNavigate();
     const profileId = location.pathname.split('/')[1];
     const loginUserId = localStorage.getItem('id');
-    const { data, loading: profileLoading } = useQuery(GET_USER_BY_ID, { variables: { userid: profileId } });
-    const { data: userPost, error, loading } = useQuery(GET_ALL_POST_BY_USER, { variables: { userid: profileId } });
+    const { data, loading: profileLoading } = useQuery(GET_USER_BY_ID, {
+        variables: { userid: profileId },
+        fetchPolicy: 'no-cache'
+    });
+    const { data: userPost, error, loading } = useQuery(GET_ALL_POST_BY_USER, {
+        variables: { userid: profileId },
+        fetchPolicy: 'no-cache'
+    });
 
     const [selectedPostView, setPostView] = useState(POST_VIEW.ROW)
     const handleClose = () => {
