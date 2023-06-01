@@ -102,7 +102,7 @@ const AddNew = () => {
                         onChange={onTextChange}
                     />
                     <button className="emoji-button"
-                        onClick={() => toggleEmojiModel(!emojiModel)}
+                        onClick={(evt) => { evt.preventDefault(); toggleEmojiModel(!emojiModel) }
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
