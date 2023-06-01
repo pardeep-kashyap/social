@@ -1,54 +1,76 @@
 import { Box, TextField, Button, IconButton } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { CREATE_POST, MachineContext } from "../../machine";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import './AddNew.scss';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CancelIcon from '@mui/icons-material/Cancel';
 
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import { postAPICall, putAPICall } from "../../apiService";
+import { UPLOADFILE } from "../../endPoints";
+import { useMutation } from "react-query";
+import { toast } from "react-toastify";
+import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
+import EmojiModal from "../../components/EmojiModal/EmojiModal";
 const AddNew = () => {
     const [currentMachine, sendToMachine] = useContext(MachineContext);
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}')
+
     const [image, setImage] = useState<any>(null);
+    const [file, setFiles] = useState<any>(null);
     const [input, setInput] = useState<any>('');
     const [emojiModel, toggleEmojiModel] = useState<boolean>(false);
-    const navigate = useNavigate()
+
+    const navigate = useNavigate();
+
+    const { mutate, isLoading } = useMutation({
+        mutationKey: 'POST_UPLOAD',
+        mutationFn: () => {
+            const formdata = new FormData();
+            formdata.append('file', file)
+            return postAPICall({ baseUrl: UPLOADFILE, body: formdata })
+        },
+        onError: () => {
+            toast("Unkown Error while uploading file  ", { type: 'error' });
+        },
+        onSuccess: (file) => {
+            sendToMachine(CREATE_POST, {
+                caption: input,
+                images: [file.url],
+                author: userData.id
+            })
+        }
+    });
 
     const handleChange = (event: any) => {
         if (event.target.files[0]) {
+            setFiles(event.target.files[0]);
             const FR = new FileReader();
             FR.addEventListener("load", function (evt) {
                 if (evt && evt.target) {
                     setImage(evt.target.result);
                 }
             });
-
             FR.readAsDataURL(event.target.files[0]);
         }
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const userData = JSON.parse(localStorage.getItem('userData') || '{}')
         const { text } = event.currentTarget;
-        if (!text.value && !image) {
+        if (!text.value && !file) {
             return
         }
-        sendToMachine(CREATE_POST, {
-            caption: text.value,
-            images: [image],
-            author: userData.id
-        })
+        mutate();
     };
 
     useEffect(() => {
         if (currentMachine?.value?.posts === 'createPostSuccess') {
-            navigate('/')
+            navigate('/');
+            sendToMachine('init')
         }
     }, [currentMachine?.value])
-
 
 
     const onTextChange = (evt: any) => {
@@ -57,28 +79,10 @@ const AddNew = () => {
         }
     }
 
-    const toggleEmoji = (evt: any) => {
-        evt.preventDefault();
-        toggleEmojiModel(!emojiModel)
-    }
-    const onEmojiClick = (emojiData: EmojiClickData, event: MouseEvent) => {
-        let sym = emojiData.unified.split("-");
-        let codesArray: any[] = [];
-        sym.forEach((el: any) => codesArray.push("0x" + el));
-        let emoji = String.fromCodePoint(...codesArray);
-        setInput(input + emoji);
-    };
-
     return (
         <div className="add-new-post">
             {
-                emojiModel && <div className="emoji-container">
-                    <IconButton size="large"
-                        color="inherit" onClick={() => toggleEmojiModel(false)}>
-                        <CancelIcon />
-                    </IconButton>
-                    <EmojiPicker onEmojiClick={onEmojiClick} autoFocusSearch={false} />
-                </div>
+                emojiModel && <EmojiModal onEmojiClick={(emoji) => setInput(input + emoji)} closeModal={() => toggleEmojiModel(false)} />
             }
 
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -98,7 +102,7 @@ const AddNew = () => {
                         onChange={onTextChange}
                     />
                     <button className="emoji-button"
-                        onClick={toggleEmoji}
+                        onClick={() => toggleEmojiModel(!emojiModel)}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -145,7 +149,7 @@ const AddNew = () => {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-                    disabled={currentMachine?.value?.posts === 'createPostInProgress'}
+                    disabled={currentMachine?.value?.posts === 'createPostInProgress' || isLoading}
                 >
                     Add
                 </Button>

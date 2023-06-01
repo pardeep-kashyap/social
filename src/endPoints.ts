@@ -13,3 +13,4 @@ export const UPDATE_USER = `${BASE_URL}api/user/update`;
 export const CREATE_NEW_COMMENT = `${BASE_URL}api/comment/create`;
 export const UPDATE_COMMENT = `${BASE_URL}api/comment/update`;
 export const DELETE_COMMENT = `${BASE_URL}api/comment/delete`;
+export const UPLOADFILE = `${BASE_URL}api/upload/file`;

@@ -1,4 +1,9 @@
 .reel-container {
     padding: 0 var(--gutter);
     padding-top: var(--gutter);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 64px;
+    overflow-y: auto;
+    width: 100%
 }

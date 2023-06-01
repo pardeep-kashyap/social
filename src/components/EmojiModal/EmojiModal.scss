@@ -1,0 +1,17 @@
+.emoji-container {
+    position: absolute;
+    top: 120px;
+    background: white;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    border: 1px solid lightgray;
+    padding: var(--gutter);
+    border-radius: 20px;
+
+    aside.EmojiPickerReact {
+        align-self: center;
+        border: none;
+    }
+}

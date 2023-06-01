@@ -112,7 +112,7 @@ query getPostbyAuther($userid:ID!){
 
 export const GET_FOLLWER_POST = gql`
 query getPostbyAuther($userId:ID!, $offset:Int!, $limit:Int!){
-  postsByFollower(userId:$userId,, offset:$offset, limit:$limit){
+  postsByFollower(userId:$userId, offset:$offset, limit:$limit){
     _id
     caption
     images
@@ -138,8 +138,8 @@ query getPostbyAuther($userId:ID!, $offset:Int!, $limit:Int!){
 `
 
 export const GETALLPOST = gql`
-query allPost{
-  allPost{
+query allPost( $offset:Int!, $limit:Int!){
+  allPost( offset:$offset, limit:$limit){
     _id
     caption
     images

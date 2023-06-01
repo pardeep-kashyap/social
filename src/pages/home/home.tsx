@@ -14,8 +14,8 @@ const Home = () => {
     const { data, error, loading, fetchMore } = useQuery(GET_FOLLWER_POST, {
         variables: {
             userId: localStorage.getItem('id'),
-            offset: 1,
-            limit: 2
+            offset: 0,
+            limit: 4
         },
         fetchPolicy: 'no-cache'
     })
@@ -32,7 +32,7 @@ const Home = () => {
                 variables: {
                     userId: localStorage.getItem('id'),
                     offset: postlist?.length,
-                    limit: 1
+                    limit: 3
                 },
             })
             setMoreLoading(false);

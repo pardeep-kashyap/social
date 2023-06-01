@@ -11,7 +11,12 @@ export function useOutsideAlerter(ref: any) {
          */
         function handleClickOutside(event: any) {
             if (ref.current && !ref.current.contains(event.target)) {
+                console.log('Clicked outside');
                 setClickOutside(true)
+                setTimeout(() => {
+                    setClickOutside(false)
+
+                }, 1000)
             }
         }
         // Bind the event listener

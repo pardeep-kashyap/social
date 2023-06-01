@@ -14,6 +14,7 @@ import { IConversation, IUser } from "../../types";
 import './Messenger.scss';
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
+import EmojiModal from "../../components/EmojiModal/EmojiModal";
 
 const Messenger = () => {
     const [chatMessages, setMessages] = useState<any[]>([]);
@@ -164,13 +165,7 @@ const Messenger = () => {
         evt.preventDefault();
         toggleEmojiModel(!emojiModel)
     }
-    const onEmojiClick = (emojiData: EmojiClickData, event: MouseEvent) => {
-        let sym = emojiData.unified.split("-");
-        let codesArray: any[] = [];
-        sym.forEach((el) => codesArray.push("0x" + el));
-        let emoji = String.fromCodePoint(...codesArray);
-        setInput(input + emoji);
-    };
+
 
     return (
         <div className="messenger">
@@ -203,13 +198,7 @@ const Messenger = () => {
                                 </div>
                                 <Box component="form" sx={{ mt: 1 }} className="messager-chat-box-messages-input" noValidate onSubmit={handleSubmit}>
                                     {
-                                        emojiModel && <div className="emoji-container" ref={wrapperRef}>
-                                            <IconButton size="large"
-                                                color="inherit" onClick={() => toggleEmojiModel(false)}>
-                                                <CancelIcon />
-                                            </IconButton>
-                                            <EmojiPicker onEmojiClick={onEmojiClick} autoFocusSearch={false} />
-                                        </div>
+                                        emojiModel && <EmojiModal onEmojiClick={(emoji) => setInput(input + emoji)} closeModal={() => toggleEmojiModel(false)} />
                                     }
                                     <TextField
                                         margin="normal"

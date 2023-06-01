@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AppRouteContant } from "../../constants";
 import { Avatar, Button, TextField } from "@mui/material";
 import './SetUpProfile.scss';
-import { putAPICall } from "../../apiService";
-import { UPDATE_USER } from "../../endPoints";
+import { postAPICall, putAPICall } from "../../apiService";
+import { UPDATE_USER, UPLOADFILE } from "../../endPoints";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 
@@ -13,14 +13,32 @@ const SetUpProfile = () => {
     const navigate = useNavigate()
     console.log(location?.state)
     const [profile, setProfile] = useState(location?.state);
+    const [file, setFile] = useState<File>();
     const { mutate, isLoading } = useMutation({
         mutationKey: 'MF_PROFILE',
-        mutationFn: () => putAPICall({ baseUrl: UPDATE_USER, body: profile }),
-        onError: () => {
-            toast("Unkown Error while updating  ", { type: 'error' });
+        mutationFn: (profile) => putAPICall({ baseUrl: UPDATE_USER, body: { ...profile } }),
+        onError: (error: any) => {
+            toast(error.message, { type: 'error' });
         },
         onSuccess: () => {
             navigate(-1);
+        }
+    });
+
+
+    const { mutate: fileUploadMutate, isLoading: fileUploadLoading } = useMutation({
+        mutationKey: 'POST_UPLOAD',
+        mutationFn: () => {
+            const formdata = new FormData();
+            formdata.append('file', file ? file : '')
+            return postAPICall({ baseUrl: UPLOADFILE, body: formdata })
+
+        },
+        onError: (error: any) => {
+            toast(error.message, { type: 'error' });
+        },
+        onSuccess: (file) => {
+            mutate({ ...profile, userImage: file.url })
         }
     });
 
@@ -37,6 +55,8 @@ const SetUpProfile = () => {
 
     const updateAvatar = (event: any) => {
         if (event.target.files[0]) {
+            setFile(event.target.files[0]);
+
             const FR = new FileReader();
             FR.addEventListener("load", function (evt) {
                 if (evt && evt.target) {
@@ -64,7 +84,7 @@ const SetUpProfile = () => {
                 Change
             </label>
         </div>
-        <form className="user-form" onSubmit={(evt) => { evt.preventDefault(); mutate() }}>
+        <form className="user-form" onSubmit={(evt) => { evt.preventDefault(); file ? fileUploadMutate() : mutate(profile) }}>
             <TextField
                 required
                 id="outlined-required"
@@ -97,7 +117,7 @@ const SetUpProfile = () => {
             />
 
             <div className="user-form-action">
-                <Button variant="contained" type="submit" disabled={isLoading}>{isLoading ? 'Hang On...' : 'Save'}</Button>
+                <Button variant="contained" type="submit" disabled={isLoading || fileUploadLoading}>{isLoading || fileUploadLoading ? 'Hang On...' : 'Save'}</Button>
                 <Button variant="outlined" onClick={onCancel}>Cancel</Button>
             </div>
         </form>

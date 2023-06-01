@@ -101,7 +101,7 @@ const Profile = () => {
 
 export default Profile;
 
-const RowWisePost = ({ posts = [] }: { posts: IPost[] }) => (
+export const RowWisePost = ({ posts = [] }: { posts: IPost[] }) => (
     <>
         {posts?.map((post: IPost, index: number) => (
             <div className="post-container" key={index + 'post'} >
