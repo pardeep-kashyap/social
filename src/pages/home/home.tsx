@@ -15,7 +15,7 @@ const Home = () => {
         variables: {
             userId: localStorage.getItem('id'),
             offset: 1,
-            limit: 4
+            limit: 3
         },
         fetchPolicy: 'no-cache'
     })
@@ -32,7 +32,7 @@ const Home = () => {
                 variables: {
                     userId: localStorage.getItem('id'),
                     offset: postlist?.length,
-                    limit: 4
+                    limit: 3
                 },
             })
             setMoreLoading(false);
