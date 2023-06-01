@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import { IPost } from "../../types";
 import PostGrid from "../../components/PostGrid/PostGrid";
+import Search from "../Search/Search";
 const limit = 8;
 const Reel = () => {
     const { data, error, loading, fetchMore } = useQuery(GETALLPOST, {
@@ -60,6 +61,7 @@ const Reel = () => {
     if (error) return (<div>`Error! ${error?.message}`;</div>)
     return (
         <div ref={homepageRef} className="reel-container" onScroll={onScroll}>
+            <Search />
             {postlist.length > 0 && <PostGrid posts={postlist} />
             }
             {

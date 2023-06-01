@@ -1,22 +1,18 @@
-import { Box, TextField, Button, IconButton } from "@mui/material";
-import React, { useContext, useEffect, useState, useRef } from "react";
+import { Box, TextField, Button } from "@mui/material";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { CREATE_POST, MachineContext } from "../../machine";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import './AddNew.scss';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { postAPICall, putAPICall } from "../../apiService";
-import { UPLOADFILE } from "../../endPoints";
+import { postAPICall } from "../../apiService";
+import { CREATE_POST_API, UPLOADFILE } from "../../endPoints";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
-import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
 import EmojiModal from "../../components/EmojiModal/EmojiModal";
+import { ClipLoader } from "react-spinners";
 const AddNew = () => {
-    const [currentMachine, sendToMachine] = useContext(MachineContext);
     const userData = JSON.parse(localStorage.getItem('userData') || '{}')
-
     const [image, setImage] = useState<any>(null);
     const [file, setFiles] = useState<any>(null);
     const [input, setInput] = useState<any>('');
@@ -24,8 +20,24 @@ const AddNew = () => {
 
     const navigate = useNavigate();
 
+
+    const { mutate: createPostMutation, isLoading: createPostLoading } = useMutation({
+        mutationKey: 'POST_UPLOAD',
+        mutationFn: (req) => postAPICall({
+            baseUrl: CREATE_POST_API,
+            body: req
+        }),
+        onError: (error: any) => {
+            toast(error.message, { type: 'error' });
+        },
+        onSuccess: (file) => {
+            navigate('/');
+        }
+    });
+
     const { mutate, isLoading } = useMutation({
         mutationKey: 'POST_UPLOAD',
+
         mutationFn: () => {
             const formdata = new FormData();
             formdata.append('file', file)
@@ -35,13 +47,15 @@ const AddNew = () => {
             toast("Unkown Error while uploading file  ", { type: 'error' });
         },
         onSuccess: (file) => {
-            sendToMachine(CREATE_POST, {
+            const postReq: any = {
                 caption: input,
                 images: [file.url],
                 author: userData.id
-            })
+            }
+            createPostMutation(postReq);
         }
     });
+
 
     const handleChange = (event: any) => {
         if (event.target.files[0]) {
@@ -63,15 +77,7 @@ const AddNew = () => {
             return
         }
         mutate();
-    };
-
-    useEffect(() => {
-        if (currentMachine?.value?.posts === 'createPostSuccess') {
-            navigate('/');
-            sendToMachine('init')
-        }
-    }, [currentMachine?.value])
-
+    }
 
     const onTextChange = (evt: any) => {
         if (evt && evt.target) {
@@ -149,9 +155,15 @@ const AddNew = () => {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-                    disabled={currentMachine?.value?.posts === 'createPostInProgress' || isLoading}
+                    disabled={createPostLoading || isLoading}
                 >
-                    Add
+                    {
+                        createPostLoading || isLoading && <ClipLoader color="var(--white)" className="mr-3" aria-label="Loading Spinner"
+                            data-testid="loader" size={30}
+                        />
+                    }
+
+                    {createPostLoading || isLoading ? 'Please wait...' : 'Publish'}
                 </Button>
 
             </Box >
