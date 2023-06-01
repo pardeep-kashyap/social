@@ -32,7 +32,7 @@ const Home = () => {
                 variables: {
                     userId: localStorage.getItem('id'),
                     offset: postlist?.length,
-                    limit: 3
+                    limit: 1
                 },
             })
             setMoreLoading(false);
