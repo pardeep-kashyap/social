@@ -60,7 +60,7 @@ const Reel = () => {
     if (error) return (<div>`Error! ${error?.message}`;</div>)
     return (
         <div ref={homepageRef} className="reel-container" onScroll={onScroll}>
-            {postlist.length && <PostGrid posts={postlist} />
+            {postlist.length > 0 && <PostGrid posts={postlist} />
             }
             {
                 moreLoading && <div className="flex justify-center p-2">
