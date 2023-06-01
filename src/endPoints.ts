@@ -1,4 +1,4 @@
-export const BASE_URL = "https://social-backend-mu.vercel.app/";
+export const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const CREATE_POST_API = `${BASE_URL}api/post/create`;
 export const UPDATE_POST_API = `${BASE_URL}api/post/update`;
 export const GOOGLE_SIGN = `${BASE_URL}api/auth/google/user`;

@@ -111,8 +111,8 @@ query getPostbyAuther($userid:ID!){
 `
 
 export const GET_FOLLWER_POST = gql`
-query getPostbyAuther($userId:ID!){
-  postsByFollower(userId:$userId){
+query getPostbyAuther($userId:ID!, $offset:Int!, $limit:Int!){
+  postsByFollower(userId:$userId,, offset:$offset, limit:$limit){
     _id
     caption
     images

@@ -1,9 +1,9 @@
 import { ClipLoader } from "react-spinners";
 import './Loader.scss';
-const Loader = () => {
+const Loader = ({ size = 50 }: { size?: number }) => {
     return (<div className="Loader">
         <ClipLoader color="var(--theme)" aria-label="Loading Spinner"
-            data-testid="loader" size={50}
+            data-testid="loader" size={size}
         />
     </div>)
 }

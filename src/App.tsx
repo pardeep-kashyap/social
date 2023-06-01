@@ -29,7 +29,7 @@ const queryClient = new QueryClient()
 
 
 const client = new ApolloClient({
-  uri: 'https://social-backend-mu.vercel.app/graphql',
+  uri: `${import.meta.env.VITE_BASE_URL}graphql`,
   cache: new InMemoryCache(),
   headers: {
     authorization: localStorage.getItem('token') || ''
