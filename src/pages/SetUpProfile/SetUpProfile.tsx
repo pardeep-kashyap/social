@@ -16,7 +16,7 @@ const SetUpProfile = () => {
     const [file, setFile] = useState<File>();
     const { mutate, isLoading } = useMutation({
         mutationKey: 'MF_PROFILE',
-        mutationFn: (profile) => putAPICall({ baseUrl: UPDATE_USER, body: { ...profile } }),
+        mutationFn: (profile) => putAPICall({ baseUrl: UPDATE_USER, body: profile }),
         onError: (error: any) => {
             toast(error.message, { type: 'error' });
         },
