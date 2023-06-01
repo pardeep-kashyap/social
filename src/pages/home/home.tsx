@@ -15,7 +15,7 @@ const Home = () => {
         variables: {
             userId: localStorage.getItem('id'),
             offset: 1,
-            limit: 3
+            limit: 2
         },
         fetchPolicy: 'no-cache'
     })
