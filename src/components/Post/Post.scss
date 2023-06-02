@@ -9,6 +9,15 @@
     text-transform: capitalize;
 }
 
+.post .time {
+    font-size: 10px;
+    color: #baadc6;
+
+    .dot {
+        padding-inline: 8px;
+    }
+}
+
 .post-pic-header {
     display: flex;
     align-items: center;

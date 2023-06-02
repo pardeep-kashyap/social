@@ -14,7 +14,11 @@ export interface IUser {
 export interface IConversation {
     messages: any[],
     users: IUser[],
-    _id: string
+    _id: string,
+    id: string,
+    createdAt: string;
+    updatedAt: string;
+
 }
 
 export interface IPost {
@@ -40,9 +44,7 @@ export interface IPost {
         name: string;
     };
     likes: string[];
-    createdAt: {
-        date: Date;
-    };
+    createdAt: String;
     isComment?: boolean
 }
 

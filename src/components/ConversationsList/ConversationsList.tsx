@@ -1,7 +1,9 @@
 import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui/material";
-import React from "react";
-import './ConversationList.scss';
+import React, { useCallback } from "react";
 import { IConversation, IUser } from "../../types";
+import { timeSinceText } from "../../util";
+import './ConversationList.scss';
+
 const ConversationsList = ({ conversations = [], onClick, selectedUser }: { conversations: IConversation[], onClick: any, selectedUser: IUser }) => {
     if (!conversations?.length) {
         return <div className="no-conversation">
@@ -14,9 +16,14 @@ const ConversationsList = ({ conversations = [], onClick, selectedUser }: { conv
             </div>
         </div>
     }
+
+    const getTime = useCallback((createdAt: string) => {
+        return createdAt ? timeSinceText(new Date(createdAt)) : null
+    }, [conversations])
+
     return conversations && conversations.length ? <div className="chat-users">
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            {conversations.map((conversation: any, key: number) => {
+            {conversations.map((conversation: IConversation, key: number) => {
                 const user: IUser = conversation.users[0]._id !== selectedUser.id ? conversation.users[0] : conversation.users[1];
                 return <ListItem sx={{ backgroundColor: selectedUser?.id === conversation?.id ? 'lightgray' : '', cursor: 'pointer' }} key={key + "_" + Math.random()} alignItems="flex-start" onClick={() => onClick(user, conversation)}>
                     <ListItemAvatar>
@@ -37,7 +44,11 @@ const ConversationsList = ({ conversations = [], onClick, selectedUser }: { conv
                             </React.Fragment>
                         }
                     >
+
                     </ListItemText>
+                    <div className="time flex items-center	">
+                        <span className="text">{getTime(conversation.createdAt)}</span>
+                    </div>
                 </ListItem>
             })}
         </List>
