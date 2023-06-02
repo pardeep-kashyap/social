@@ -1,5 +1,5 @@
 import { IconButton, Menu, MenuItem, Button } from "@mui/material"
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -12,8 +12,9 @@ import { putAPICall } from "../../apiService";
 import { DELETE_POST_API, UPDATE_POST_API } from "../../endPoints";
 import { IPost } from "../../types";
 import { remove } from "../../apiService";
+import { timeSinceText } from "../../util";
 
-const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _id, isComment }: IPost) => {
+const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _id, createdAt }: IPost) => {
     const userId = localStorage.getItem('id');
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [isLiked, setIsLiked] = useState(likes.includes(localStorage.getItem('id') as string));
@@ -61,16 +62,25 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
         })()
     }
 
+    const getTime = useCallback(() => {
+        return timeSinceText(new Date(Number(createdAt)))
+    }, [createdAt])
+
     return (<div className={`post ${isDeleted && 'deleted'}`} >
 
         <div className="post-header">
             <div className="post-pic-header">
                 <Avatar alt={postAuthoredDetails.firstName} className="post-profile-pic-button" src={postAuthoredDetails.userImage} />
+
+
                 <button className="post-profile-name">
                     <Link to={`/${author}`}>
                         {postAuthoredDetails.firstName} {postAuthoredDetails.lastName}
                     </Link>
                 </button>
+                <span className="time">
+                    <span className="dot"> • </span><span className="text">{getTime()}</span>
+                </span>
             </div>
 
             {
@@ -118,7 +128,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
         </div>
         <div className="post-detail">
             {
-                images?.map((img: string) => <img src={img} />)
+                images?.map((img: string, index: number) => <img key={index + _id + '_post'} src={img} />)
             }
         </div>
         <div className="post-actions">
@@ -169,6 +179,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
                 <span className="post-caption--text">{caption}</span>
             </div>
         </div>
+
 
     </div>)
 }

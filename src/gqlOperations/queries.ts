@@ -103,9 +103,7 @@ query getPostbyAuther($userid:ID!){
       name
     }
     likes
-    createdAt{
-      date
-    }
+    createdAt
   }
 }
 `
@@ -130,9 +128,7 @@ query getPostbyAuther($userId:ID!, $offset:Int!, $limit:Int!){
       name
     }
     likes
-    createdAt{
-      date
-    }
+    createdAt
   }
 }
 `
@@ -157,9 +153,7 @@ query allPost( $offset:Int!, $limit:Int!){
       name
     }
     likes
-    createdAt{
-      date
-    }
+    createdAt
 }
   }
 `
@@ -202,9 +196,7 @@ query getPostById($postId:ID!){
       name
     }
     likes
-    createdAt{
-      date
-    }
+    createdAt
 }
   }
 `
