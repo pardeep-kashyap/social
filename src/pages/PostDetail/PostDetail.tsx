@@ -34,7 +34,7 @@ const PostDetail = () => {
                 author: userId,
                 postId: postId
             };
-            const response = await postAPICall({ baseUrl: `${CREATE_NEW_COMMENT}`, body: body });
+            await postAPICall({ baseUrl: `${CREATE_NEW_COMMENT}`, body: body });
             setComment('')
             refetch();
 

@@ -54,7 +54,7 @@
 }
 
 .post-detail {
-    height: 250px;
+    min-height: 200px;
     border: 1px solid lightgray;
     width: 100%;
     overflow: hidden;
@@ -63,7 +63,7 @@
 .post-detail>img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .post-actions {
@@ -94,4 +94,10 @@
     color: var(--black);
     font-weight: var(--font-weight-ExtraLight);
     padding-left: calc(var(--gutter)/2);
+}
+
+.deleted {
+    opacity: 0.5;
+    pointer-events: none;
+
 }

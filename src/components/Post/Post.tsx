@@ -1,5 +1,5 @@
-import { IconButton, Icon, Menu, MenuItem, Typography, CircularProgress } from "@mui/material"
-import { useEffect, useState } from "react";
+import { IconButton, Menu, MenuItem, Typography, CircularProgress, Button } from "@mui/material"
+import { useState } from "react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -8,15 +8,17 @@ import CommentIcon from '@mui/icons-material/Comment';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import './Post.scss';
 import { Link } from "react-router-dom";
-import { postAPICall, putAPICall } from "../../apiService";
-import { CREATE_NEW_COMMENT, UPDATE_POST_API } from "../../endPoints";
+import { getAPICall, putAPICall } from "../../apiService";
+import { DELETE_POST_API, UPDATE_POST_API } from "../../endPoints";
 import { IPost } from "../../types";
+import { remove } from "../../apiService";
 
 const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _id, isComment }: IPost) => {
     const userId = localStorage.getItem('id');
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [isLiked, setIsLiked] = useState(likes.includes(localStorage.getItem('id') as string));
     const [likesLocal, setLikes] = useState(likes);
+    const [isDeleted, setDeleted] = useState(false);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -40,8 +42,20 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
             }
         })()
     }
+    const deletePost = () => {
+        (async () => {
+            try {
+                await remove({ baseUrl: `${DELETE_POST_API}/${_id}` });
+                console.log('response');
+                setDeleted(true)
+            } catch (error) {
+                console.log(error);
+            }
+        })()
+    }
 
-    return (<div className="post">
+    return (<div className={`post ${isDeleted && 'deleted'}`} >
+
         <div className="post-header">
             <div className="post-pic-header">
                 <Avatar alt={postAuthoredDetails.firstName} className="post-profile-pic-button" src={postAuthoredDetails.userImage} />
@@ -84,7 +98,9 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
                 }}
             >
                 <MenuItem key={1} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Share</Typography>
+                    {
+                        userId === author && <Button onClick={() => deletePost()}>Delete</Button>
+                    }
                 </MenuItem>
             </Menu>
         </div>
@@ -113,7 +129,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
                     >
                         <CommentIcon />
                     </IconButton>
-                    <span> {comments.length > 0 && comments.length} Comments</span>
+                    <span> {comments.length > 0 && comments.length} </span>
 
                 </Link>
 
