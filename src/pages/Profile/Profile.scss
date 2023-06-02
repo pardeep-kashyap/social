@@ -2,6 +2,10 @@
     width: 100%;
     padding-top: var(--gutter);
 
+    .post-container {
+        margin-bottom: calc(var(--gutter) * 2);
+    }
+
     .Profile--details {
         display: flex;
         flex-direction: row;
@@ -15,7 +19,6 @@
 
     .profile-post {
         padding: var(--gutter);
-        ;
     }
 
     .Profile--details .MuiTypography-body1 {

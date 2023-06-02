@@ -19,6 +19,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
+    "@vercel/analytics": "^1.0.1",
     "@xstate/react": "^3.2.1",
     "crypto-js": "^4.1.1",
     "emoji-mart": "^5.5.2",

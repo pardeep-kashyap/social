@@ -1,5 +1,5 @@
-import { IconButton, Menu, MenuItem, Typography, CircularProgress, Button } from "@mui/material"
-import { useState } from "react";
+import { IconButton, Menu, MenuItem, Button } from "@mui/material"
+import { useEffect, useState } from "react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -8,7 +8,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import './Post.scss';
 import { Link } from "react-router-dom";
-import { getAPICall, putAPICall } from "../../apiService";
+import { putAPICall } from "../../apiService";
 import { DELETE_POST_API, UPDATE_POST_API } from "../../endPoints";
 import { IPost } from "../../types";
 import { remove } from "../../apiService";
@@ -29,11 +29,18 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
     };
 
     const toggleLike = () => {
-        const likes = !isLiked ? [userId] : [];
+        let likes: string[] = [];
+        if (!isLiked) {
+            likes = [...likesLocal, userId as string]
+        } else {
+            likes = [...likesLocal];
+            likes.splice(likes.indexOf(userId as string), 1);
+        }
+        setIsLiked(!isLiked);
         (async () => {
             try {
                 const response = await putAPICall({ baseUrl: `${UPDATE_POST_API}/${_id}`, body: { likes } });
-                setIsLiked(!isLiked);
+
                 if (response && response.data && response.data.likes) {
                     setLikes(response.data.likes);
                 }
@@ -66,43 +73,48 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
                 </button>
             </div>
 
-            <div className="more-icon">
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleOpenNavMenu}
-                    color="inherit"
-                    className="more-icon"
-                >
-                    <MoreHorizIcon />
-                </IconButton>
-            </div>
-            <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                    display: { xs: 'block', md: 'none' },
-                }}
-            >
-                <MenuItem key={1} onClick={handleCloseNavMenu}>
-                    {
-                        userId === author && <Button onClick={() => deletePost()}>Delete</Button>
-                    }
-                </MenuItem>
-            </Menu>
+            {
+                userId === author &&
+                <>
+                    <div className="more-icon">
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                            className="more-icon"
+                        >
+                            <MoreHorizIcon />
+                        </IconButton>
+                    </div>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorElNav}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        open={Boolean(anchorElNav)}
+                        onClose={handleCloseNavMenu}
+                        sx={{
+                            display: { xs: 'block', md: 'none' },
+                        }}
+                    >
+                        <MenuItem key={1} onClick={handleCloseNavMenu}>
+                            <Button onClick={() => deletePost()}>Delete</Button>
+                        </MenuItem>
+
+                    </Menu>
+                </>
+
+            }
         </div>
         <div className="post-detail">
             {
@@ -129,7 +141,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
                     >
                         <CommentIcon />
                     </IconButton>
-                    <span> {comments.length > 0 && comments.length} </span>
+                    <span> {comments.length > 0 && comments.length} Comment</span>
 
                 </Link>
 

@@ -12,9 +12,9 @@ import UserList from "../../components/UserList/UserList";
 import { useQuery } from "react-query";
 import { IConversation, IUser } from "../../types";
 import './Messenger.scss';
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
 import EmojiModal from "../../components/EmojiModal/EmojiModal";
+import { Link } from "react-router-dom";
 
 const Messenger = () => {
     const [chatMessages, setMessages] = useState<any[]>([]);
@@ -46,7 +46,7 @@ const Messenger = () => {
     const valueRef = useRef<HTMLInputElement>(null)
 
     const updateMessages = (msg: any) => {
-        const tempMessage = JSON.parse(JSON.stringify(chatMessages));
+        const tempMessage: any[] = [...chatMessages]
         tempMessage.push(msg);
         setMessages(tempMessage)
     }
@@ -177,7 +177,6 @@ const Messenger = () => {
                     }
                 </div> :
                     <div className="messager-chat-box">
-
                         {
                             receiverDetail && <>
                                 <Box sx={{
@@ -185,9 +184,10 @@ const Messenger = () => {
                                     justifyContent: "space-between",
                                     height: '80px', display: 'flex'
                                 }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: "5px" }}>
-                                        <Avatar alt={receiverDetail?.firstName} src={receiverDetail.userImage} /> <span className="text-user-name">{receiverDetail?.firstName} {receiverDetail?.lastName}</span>
-                                    </Box>
+                                    <Link to={`/${receiverDetail._id || receiverDetail.id}`} style={{ display: 'flex', alignItems: 'center', gap: "5px" }}>
+                                        <Avatar alt={receiverDetail?.firstName} src={receiverDetail.userImage} /> <span className="text-user-name"><b>{receiverDetail?.firstName} {receiverDetail?.lastName}</b></span>
+                                    </Link>
+
                                     <IconButton size="large"
                                         color="inherit" onClick={() => closeConversation()}>
                                         <CancelIcon />

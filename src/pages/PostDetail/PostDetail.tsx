@@ -3,13 +3,14 @@ import Loader from "../../components/Loader/Loader";
 import Post from "../../components/Post/Post";
 import { GET_POST_BY_ID } from "../../gqlOperations/queries";
 import './PostDetail.scss'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postAPICall, putAPICall } from "../../apiService";
 import { CREATE_NEW_COMMENT, UPDATE_COMMENT } from "../../endPoints";
 import { Avatar, CircularProgress, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { IUser } from "../../types";
 
 const PostDetail = () => {
     const postId = location.pathname.split('/')[2];
@@ -21,10 +22,12 @@ const PostDetail = () => {
     })
     const [postCommentInProgress, setPostCommentInProgress] = useState(false);
     const [comment, setComment] = useState('');
+    const [currentUser, setCurrentUser] = useState<IUser>({} as IUser);
 
-    if (loading) return (<Loader />)
-    if (error) return (<div>`Error! ${error?.message}`;</div>)
-
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('userData') || '{}') as IUser;
+        setCurrentUser(user)
+    }, []);
     const addNewComment = async (evt: any) => {
         evt.preventDefault();
         setPostCommentInProgress(true)
@@ -60,8 +63,15 @@ const PostDetail = () => {
             console.log(error);
         }
     }
+
+
+
+    if (loading) return (<Loader />)
+    if (error) return (<div>`Error! ${error?.message}`;</div>)
+
+
     return (
-        <div className="post-container">
+        <div className="post-details">
             {
                 data.post &&
                 <Post {...data.post} key={'post'} />
@@ -100,10 +110,8 @@ const PostDetail = () => {
 
                 <form className="add-new-comment" onSubmit={addNewComment}>
                     <div className="comment-text-section">
-                        <Avatar alt={data.post.author.firstName} className="post-profile-pic-button" src={data.post.author.userImage} />
-
+                        <Avatar alt={currentUser.firstName} className="post-profile-pic-button" src={currentUser.userImage} />
                         <input required name="comment" type="text" value={comment} onChange={(evt) => setComment(evt.target.value)} placeholder="Add a comment..." />
-
                     </div>
 
                     {postCommentInProgress ? <CircularProgress sx={{ margin: 'auto', marginRight: 'var(--gutter)' }} size={20} thickness={1} /> : <button type="submit" >Post</button>}

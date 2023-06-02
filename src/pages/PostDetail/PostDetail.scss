@@ -1,7 +1,8 @@
-.post-container {
+.post-details {
     width: 100%;
     display: flex;
     flex-direction: column;
+    padding: var(--gutter);
 
     .comment-section {
         padding-bottom: 50px;
