@@ -36,7 +36,8 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "socket.io-client": "^4.6.0",
     "urql": "^3.0.3",
-    "xstate": "^4.37.0"
+    "xstate": "^4.37.0",
+    "zustand": "^4.3.8"
   },
   "browser": {
     "crypto": false

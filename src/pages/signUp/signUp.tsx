@@ -57,7 +57,7 @@ export default function SignUp() {
         </div>)
     }
     return (
-        <Grid container component="main" sx={{ height: '100vh' }}>
+        <Grid container component="main" sx={{ height: '100dvh' }}>
             <Grid item xs={12} sm={12} md={4} component={Paper} elevation={6} square sx={{
                 display: 'flex',
                 flexDirection: 'column',

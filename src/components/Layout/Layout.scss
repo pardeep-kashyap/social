@@ -1,5 +1,5 @@
 .layout {
-    height: 100vh;
+    height: 100dvh;
     position: relative;
     display: flex;
     align-items: center;
@@ -8,7 +8,7 @@
     .layout-container {
         padding-top: 60px;
         display: flex;
-        min-height: calc(100vh - var(--header-height));
+        min-height: calc(100dvh - var(--header-height));
         width: 100%;
         align-content: center;
         justify-content: center;
