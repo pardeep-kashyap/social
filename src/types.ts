@@ -15,6 +15,7 @@ export interface IConversation {
     messages: any[],
     users: IUser[],
     _id: string,
+    id: string,
     createdAt: string;
     updatedAt: string;
 
