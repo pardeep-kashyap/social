@@ -1,12 +1,14 @@
 import { Avatar, IconButton } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { putAPICall } from "../../apiService";
 import { UPDATE_COMMENT } from "../../endPoints";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { timeSinceText } from "../../util";
 
 const CommentLine = ({ comment, userId, refetch }: any) => {
+    console.log("comment", comment)
     const [isLiked, setLiked] = useState(false);
 
     const toggleCommentLike = async (comment: any) => {
@@ -30,6 +32,10 @@ const CommentLine = ({ comment, userId, refetch }: any) => {
         setLiked(comment?.likes?.includes(userId));
     }, [userId]);
 
+    const getTime = useCallback(() => {
+        return timeSinceText(new Date(Number(comment.createdAt)))
+    }, [comment.createdAt])
+
     return <div className="add-new-comment"><div className="commet-container">
         <div className="comment-text-section">
             <Avatar alt={comment.author.firstName} className="post-profile-pic-button" src={comment.author.userImage} />
@@ -40,7 +46,11 @@ const CommentLine = ({ comment, userId, refetch }: any) => {
                     </Link>
                 </button>
                 <span>{comment.text}</span>
+                <span className="time">
+                    {comment?.likes.length} Like{comment?.likes.length > 1 && 's'}  <span className="dot"> • </span><span className="text">{getTime()}</span>
+                </span>
             </div>
+
         </div>
 
 

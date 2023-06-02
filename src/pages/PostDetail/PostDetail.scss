@@ -8,6 +8,11 @@
         padding-bottom: 50px;
     }
 
+    .comment-section-container {
+        display: flex;
+        flex-direction: column;
+    }
+
     .add-new-comment {
         display: flex;
         padding: var(--gutter) 0;
@@ -28,6 +33,16 @@
         display: flex;
         gap: calc(var(--gutter) / 2);
         flex-direction: column;
+
+        .post-profile-name {
+            text-align: left;
+
+        }
+
+        .time {
+            font-size: 10px;
+            color: #baadc6;
+        }
     }
 
     .commet-container {

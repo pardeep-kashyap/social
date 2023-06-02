@@ -189,6 +189,7 @@ query getPostById($postId:ID!){
       text
       _id
       postId
+      createdAt
     }
     location{
       lat
