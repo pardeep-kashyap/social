@@ -3,6 +3,7 @@ export const AppRouteContant = {
     SIGNIN: '/signIn',
     SIGNUP: '/signUp',
     NEW: '/new',
+    NOTIFICATION: '/notification',
     POST_DETAIL: '/post',
     MESSAGE: '/message',
     SEARCH: '/search',
@@ -10,3 +11,6 @@ export const AppRouteContant = {
     SETUP_PROFILE: '/setupProfile',
     PROFILE: '*'
 }
+
+
+export const NOTIFICATION_REFATCH_INTERVAL = 1000 * 10;

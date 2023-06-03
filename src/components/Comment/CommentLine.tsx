@@ -6,10 +6,12 @@ import { UPDATE_COMMENT } from "../../endPoints";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { timeSinceText } from "../../util";
+import { ACTIONTYPE, NOTIFICATIONTYPE } from "../../types";
+import { useNotificationStore } from "../../store/zustand";
 
-const CommentLine = ({ comment, userId, refetch }: any) => {
-    console.log("comment", comment)
+const CommentLine = ({ comment, author, postId, userId, refetch }: any) => {
     const [isLiked, setLiked] = useState(false);
+    const saveNotify = useNotificationStore((state: any) => state.saveNotify);
 
     const toggleCommentLike = async (comment: any) => {
         const body = JSON.parse(JSON.stringify(comment));
@@ -22,6 +24,15 @@ const CommentLine = ({ comment, userId, refetch }: any) => {
             body.author = body.author.id
             setLiked(!isLiked);
             const response = await putAPICall({ baseUrl: `${UPDATE_COMMENT}`, body: body });
+            if (body.likes.includes(userId)) {
+                saveNotify({
+                    user: userId,
+                    action: NOTIFICATIONTYPE.LIKE,
+                    targetUser: author,
+                    item: ACTIONTYPE.COMMENT,
+                    post: postId
+                });
+            }
             refetch();
         } catch (error) {
             console.log(error);
@@ -52,8 +63,6 @@ const CommentLine = ({ comment, userId, refetch }: any) => {
             </div>
 
         </div>
-
-
         <IconButton
             size="large"
             color="inherit"

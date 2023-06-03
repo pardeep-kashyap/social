@@ -1,0 +1,82 @@
+.notification-container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 64px;
+    overflow-y: auto;
+    width: 100%
+}
+
+
+.no-conversation {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    img {
+        width: 150px;
+    }
+}
+
+
+.chat-users {
+    overflow-x: hidden;
+    padding-inline: calc(var(--gutter) / 2);
+
+    ul {
+        padding: 0;
+
+        li {
+            padding: 0;
+            overflow: hidden;
+            padding: calc(var(--gutter) / 2) 0;
+
+            pre {
+                white-space: break-spaces;
+                line-height: 20px;
+            }
+        }
+    }
+
+    .MuiList-root {
+        max-width: 100%;
+    }
+
+    .time {
+        font-size: 10px;
+        color: #baadc6;
+        padding-right: 8px;
+        margin-top: 8px
+    }
+
+    .notification-list-item {
+        display: flex;
+        align-items: center;
+        min-height: 50px;
+        font-size: 12px;
+        width: 100%;
+        text-align: left;
+
+        .notification-auther {
+            font-weight: var(--font-weight-bold);
+        }
+
+        .time {
+            font-size: 10px;
+            color: #baadc6;
+        }
+
+        .notification-auther-image {
+            height: 50px;
+            object-fit: cover;
+            width: 70px;
+            padding-left: var(--gutter);
+            align-self: flex-end;
+            margin-left: auto;
+        }
+    }
+
+}

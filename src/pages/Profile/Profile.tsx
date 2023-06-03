@@ -3,17 +3,18 @@ import { Avatar, Button, Divider, IconButton, Typography, Box } from "@mui/mater
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GET_ALL_POST_BY_USER, GET_USER_BY_ID } from "../../gqlOperations/queries";
-import TableRowsIcon from '@mui/icons-material/TableRows';
-import ViewColumnIcon from '@mui/icons-material/ViewColumn';
+import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined'; import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 import Post from "../../components/Post/Post";
 import Settings from "../../components/Setting/Settings";
 import Loader from "../../components/Loader/Loader";
-import LogoutIcon from '@mui/icons-material/Logout';
 import { AppRouteContant } from "../../constants";
 import ProfileAction from "../../components/ProfileAction/ProfileAction";
 import { IPost, POST_VIEW } from "../../types";
-import './Profile.scss';
 import PostGrid from "../../components/PostGrid/PostGrid";
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
+import './Profile.scss';
+
 
 const Profile = () => {
     const location = useLocation();
@@ -47,7 +48,7 @@ const Profile = () => {
         <div className="Profile--header">
             <div className="Profile--details">
                 <div>
-                    <Avatar sx={{ width: "85px", height: "85px" }} alt={data?.user.firstName} src={data?.user?.userImage} />
+                    <Avatar sx={{ width: "85px", height: "85px" }} alt={data?.user?.firstName} src={data?.user?.userImage} />
                 </div>
                 <ProfileAction profile={data?.user} postCount={userPost?.posts?.length} loginUserId={loginUserId} profileId={profileId} />
             </div>
@@ -55,7 +56,7 @@ const Profile = () => {
                 <div className="Profile--description-name">
                     <span>
                         <Typography variant="body1">
-                            {data?.user.firstName} {data?.user.lastName}
+                            {data?.user?.firstName} {data?.user?.lastName}
                         </Typography>
                         <Box className="pt-1">
                             <Typography variant="caption">
@@ -75,17 +76,17 @@ const Profile = () => {
                 className={selectedPostView === POST_VIEW.ROW ? 'active' : ''}
                 onClick={() => setPostView(POST_VIEW.ROW)}
             >
-                <TableRowsIcon />
+                <TableRowsOutlinedIcon />
             </IconButton>
             <IconButton size="large"
                 className={selectedPostView === POST_VIEW.GRID ? 'active' : ''}
 
                 color="inherit" onClick={() => setPostView(POST_VIEW.GRID)}>
-                <ViewColumnIcon />
+                <GridViewOutlinedIcon />
             </IconButton>
             <IconButton size="large"
                 color="inherit" onClick={() => logout()}>
-                <LogoutIcon />
+                <ExitToAppOutlinedIcon />
             </IconButton>
         </div>
         <Divider></Divider>

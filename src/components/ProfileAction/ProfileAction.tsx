@@ -4,16 +4,25 @@ import { Link } from "react-router-dom";
 import { getAPICall } from "../../apiService";
 import { AppRouteContant } from "../../constants";
 import { FOLLOW_USER, UN_FOLLOW_USER } from "../../endPoints";
+import { useNotificationStore } from "../../store/zustand";
+import { NOTIFICATIONTYPE } from "../../types";
 
 const ProfileAction = (props: any) => {
     const { loginUserId, profileId, profile, postCount } = props;
     const [profileDetails, setProfileDetails] = useState(profile);
+    const saveNotify = useNotificationStore((state: any) => state.saveNotify);
 
     const onFollow = async () => {
         const user = await getAPICall(
             `${FOLLOW_USER}/${profileId}`, {}
         )
+        saveNotify({
+            user: loginUserId,
+            action: NOTIFICATIONTYPE.FOLLOW,
+            targetUser: profileId,
+        });
         setProfileDetails(user);
+
     }
 
     const onUnFollow = async () => {

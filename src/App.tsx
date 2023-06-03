@@ -24,6 +24,7 @@ import Search from './pages/Search/Search';
 import { AppRouteContant } from './constants';
 import Reel from './pages/Reel/Reel';
 import SetUpProfile from './pages/SetUpProfile/SetUpProfile';
+import Notification from './pages/Notification/Notification';
 
 const queryClient = new QueryClient()
 
@@ -103,6 +104,13 @@ function App() {
                   <Protected>
                     <Layout>
                       <Reel />
+                    </Layout>
+                  </Protected>
+                } />
+                <Route path={AppRouteContant.NOTIFICATION} element={
+                  <Protected>
+                    <Layout>
+                      <Notification />
                     </Layout>
                   </Protected>
                 } />

@@ -1,49 +1,52 @@
-import HomeIcon from '@mui/icons-material/Home';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import IconButton from '@mui/material/IconButton/IconButton';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { NavLink } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'; import { NavLink } from 'react-router-dom';
+import { memo, useEffect, useState } from 'react';
 import { AppRouteContant } from '../../constants';
-import ExploreIcon from '@mui/icons-material/Explore';
-const Footer = () => {
+import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import { Badge } from '@mui/material';
+
+const Footer = ({ notificationsCount }: { notificationsCount: number }) => {
     const [currentUser, setCurrentUser] = useState<any>();
+
     useEffect(() => {
         setCurrentUser(JSON.parse(localStorage.getItem('userData') || '{}'));
-
     }, [])
     return (<footer>
         <NavLink to={AppRouteContant.HOME}>
             <IconButton size="large"
                 color="inherit">
-                <HomeIcon />
+                <HomeOutlinedIcon />
             </IconButton>
         </NavLink>
         <NavLink to={'/reel'}>
             <IconButton size="large"
                 color="inherit">
-                <ExploreIcon />
+                <ExploreOutlinedIcon />
             </IconButton>
         </NavLink>
         <NavLink to={AppRouteContant.NEW}>
             <IconButton size="large"
                 color="inherit">
-                <AddCircleIcon />
+                <ControlPointOutlinedIcon />
             </IconButton>
         </NavLink>
-        <NavLink to={AppRouteContant.MESSAGE}>
+        <NavLink to={AppRouteContant.NOTIFICATION}>
             <IconButton size="large"
                 color="inherit">
-                <QuestionAnswerIcon />
+                <Badge badgeContent={notificationsCount} color="primary">
+                    <NotificationsNoneIcon />
+                </Badge>
             </IconButton>
         </NavLink>
         <NavLink to={`/${currentUser?.id}`}>
             <IconButton size="large"
                 color="inherit">
-                <AccountCircleIcon />
+                <AccountCircleOutlinedIcon />
             </IconButton>
         </NavLink>
     </footer>)
 }
-export default Footer;
+export default memo(Footer);

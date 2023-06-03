@@ -10,9 +10,10 @@ import './Post.scss';
 import { Link } from "react-router-dom";
 import { putAPICall } from "../../apiService";
 import { DELETE_POST_API, UPDATE_POST_API } from "../../endPoints";
-import { IPost } from "../../types";
+import { ACTIONTYPE, IPost, NOTIFICATIONTYPE } from "../../types";
 import { remove } from "../../apiService";
 import { timeSinceText } from "../../util";
+import { useNotificationStore } from "../../store/zustand";
 
 const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _id, createdAt }: IPost) => {
     const userId = localStorage.getItem('id');
@@ -20,6 +21,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
     const [isLiked, setIsLiked] = useState(likes.includes(localStorage.getItem('id') as string));
     const [likesLocal, setLikes] = useState(likes);
     const [isDeleted, setDeleted] = useState(false);
+    const saveNotify = useNotificationStore((state: any) => state.saveNotify);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -44,6 +46,15 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
 
                 if (response && response.data && response.data.likes) {
                     setLikes(response.data.likes);
+                    if (response.data.likes.includes(userId)) {
+                        saveNotify({
+                            user: userId,
+                            action: NOTIFICATIONTYPE.LIKE,
+                            targetUser: author,
+                            item: ACTIONTYPE.POST,
+                            post: _id
+                        });
+                    }
                 }
             } catch (error) {
                 console.log(error);
