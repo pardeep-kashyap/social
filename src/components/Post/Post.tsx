@@ -4,7 +4,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Avatar } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import CommentIcon from '@mui/icons-material/Comment';
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import './Post.scss';
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ import { DELETE_POST_API, UPDATE_POST_API } from "../../endPoints";
 import { ACTIONTYPE, IPost, NOTIFICATIONTYPE } from "../../types";
 import { remove } from "../../apiService";
 import { timeSinceText } from "../../util";
-import { useNotificationStore } from "../../store/zustand";
+import { useAppStore } from "../../store/zustand";
 
 const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _id, createdAt }: IPost) => {
     const userId = localStorage.getItem('id');
@@ -21,7 +21,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
     const [isLiked, setIsLiked] = useState(likes.includes(localStorage.getItem('id') as string));
     const [likesLocal, setLikes] = useState(likes);
     const [isDeleted, setDeleted] = useState(false);
-    const saveNotify = useNotificationStore((state: any) => state.saveNotify);
+    const saveNotify = useAppStore((state: any) => state.saveNotify);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -160,7 +160,7 @@ const Post = ({ caption, images, comments, likes, postAuthoredDetails, author, _
                         color="inherit"
                         className="comment"
                     >
-                        <CommentIcon />
+                        <ModeCommentOutlinedIcon />
                     </IconButton>
                     <span> {comments.length > 0 && comments.length} Comment</span>
 

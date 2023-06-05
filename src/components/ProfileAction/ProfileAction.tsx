@@ -1,17 +1,17 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { getAPICall } from "../../apiService";
+import { Link, useNavigate } from "react-router-dom";
+import { getAPICall, postAPICall } from "../../apiService";
 import { AppRouteContant } from "../../constants";
-import { FOLLOW_USER, UN_FOLLOW_USER } from "../../endPoints";
-import { useNotificationStore } from "../../store/zustand";
+import { CREATE_CONVERSATION, FOLLOW_USER, UN_FOLLOW_USER } from "../../endPoints";
+import { useAppStore } from "../../store/zustand";
 import { NOTIFICATIONTYPE } from "../../types";
 
 const ProfileAction = (props: any) => {
     const { loginUserId, profileId, profile, postCount } = props;
     const [profileDetails, setProfileDetails] = useState(profile);
-    const saveNotify = useNotificationStore((state: any) => state.saveNotify);
-
+    const saveNotify = useAppStore((state: any) => state.saveNotify);
+    const navigate = useNavigate();
     const onFollow = async () => {
         const user = await getAPICall(
             `${FOLLOW_USER}/${profileId}`, {}
@@ -39,6 +39,16 @@ const ProfileAction = (props: any) => {
             onFollow();
         }
     }
+    const onMessageClick = async () => {
+        await postAPICall({
+            baseUrl: CREATE_CONVERSATION,
+            body: {
+                users: [profileId, loginUserId]
+            }
+        });
+        navigate(`/chat/${profileId}`);
+    }
+
     return (
         <div className="w-full">
             <div className="profile-stats">
@@ -61,7 +71,7 @@ const ProfileAction = (props: any) => {
                 {
                     loginUserId === profileId ?
                         <Link to={AppRouteContant.SETUP_PROFILE} state={profile}>   <Button variant="outlined">Edit Profile</Button> </Link> : <><Button onClick={toggleFollowUnFollow} variant="outlined">{profileDetails?.followers?.includes(loginUserId) ? 'UnFollow' : 'Follow'}</Button>
-                            <Link to={AppRouteContant.MESSAGE}><Button variant="outlined">Message</Button></Link>  </>
+                            <Button variant="outlined" onClick={onMessageClick}>Message</Button>  </>
                 }
             </div>
 

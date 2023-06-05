@@ -7,11 +7,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { timeSinceText } from "../../util";
 import { ACTIONTYPE, NOTIFICATIONTYPE } from "../../types";
-import { useNotificationStore } from "../../store/zustand";
+import { useAppStore } from "../../store/zustand";
 
-const CommentLine = ({ comment, author, postId, userId, refetch }: any) => {
+const CommentLine = ({ comment, postId, userId, refetch }: any) => {
     const [isLiked, setLiked] = useState(false);
-    const saveNotify = useNotificationStore((state: any) => state.saveNotify);
+    const saveNotify = useAppStore((state: any) => state.saveNotify);
 
     const toggleCommentLike = async (comment: any) => {
         const body = JSON.parse(JSON.stringify(comment));
@@ -28,7 +28,7 @@ const CommentLine = ({ comment, author, postId, userId, refetch }: any) => {
                 saveNotify({
                     user: userId,
                     action: NOTIFICATIONTYPE.LIKE,
-                    targetUser: author,
+                    targetUser: comment.author.id,
                     item: ACTIONTYPE.COMMENT,
                     post: postId
                 });

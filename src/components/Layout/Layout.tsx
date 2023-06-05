@@ -5,12 +5,14 @@ import Footer from "../Footer/Footer";
 import NavBar from "../NavBar";
 import { NOTIFICATION_REFATCH_INTERVAL } from "../../constants";
 import './Layout.scss';
+import { useLocation } from "react-router-dom";
 
 interface layout {
     children: JSX.Element
 }
 
 const Layout: React.FC<layout> = ({ children }) => {
+    const location = useLocation();
     const { data: notificationsCount } = useQuery({
         queryFn: () => getAPICall(FETCH_NOTIFICATION_COUNT, {}),
         queryKey: 'notificationCount',
@@ -21,7 +23,10 @@ const Layout: React.FC<layout> = ({ children }) => {
         <main className="layout-container">
             {children}
         </main>
-        <Footer notificationsCount={notificationsCount} />
+        {
+            !location.pathname.includes('/chat') && <Footer notificationsCount={notificationsCount} />
+        }
+
     </div>)
 }
 

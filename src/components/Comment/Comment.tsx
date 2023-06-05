@@ -1,16 +1,16 @@
 import { Avatar, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
-import { postAPICall, putAPICall } from "../../apiService";
-import { CREATE_NEW_COMMENT, UPDATE_COMMENT } from "../../endPoints";
-import { ACTIONTYPE, IPost, IUser, NOTIFICATIONTYPE } from "../../types";
+import { postAPICall } from "../../apiService";
+import { CREATE_NEW_COMMENT } from "../../endPoints";
+import { ACTIONTYPE, IUser, NOTIFICATIONTYPE } from "../../types";
 import CommentLine from "./CommentLine";
-import { useNotificationStore } from "../../store/zustand";
+import { useAppStore } from "../../store/zustand";
 
 const Comment = ({ post, refetch }: { post: any, refetch: () => void }) => {
     const [postCommentInProgress, setPostCommentInProgress] = useState(false);
     const [comment, setComment] = useState('');
     const [currentUser, setCurrentUser] = useState<IUser>({} as IUser);
-    const saveNotify = useNotificationStore((state: any) => state.saveNotify);
+    const saveNotify = useAppStore((state: any) => state.saveNotify);
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('userData') || '{}') as IUser;
@@ -48,7 +48,7 @@ const Comment = ({ post, refetch }: { post: any, refetch: () => void }) => {
     return <>
         <div className="comment-section">
             {
-                post.commentDetails.map((comment: any, index: number) => <CommentLine author={post.author} postId={post.id || post._id} userId={currentUser.id} refetch={refetch} comment={comment} key={index + '_comment'} />)
+                post.commentDetails.map((comment: any, index: number) => <CommentLine postId={post.id || post._id} userId={currentUser.id} refetch={refetch} comment={comment} key={index + '_comment'} />)
             }
             <form className="add-new-comment" onSubmit={addNewComment}>
                 <div className="comment-text-section">

@@ -25,6 +25,10 @@ import { AppRouteContant } from './constants';
 import Reel from './pages/Reel/Reel';
 import SetUpProfile from './pages/SetUpProfile/SetUpProfile';
 import Notification from './pages/Notification/Notification';
+import OneToOneChat from './pages/OneToOneChat/OneToOneChat';
+import { useEffect } from 'react';
+import { useAppStore } from './store/zustand';
+import { IUser } from './types';
 
 const queryClient = new QueryClient()
 
@@ -38,7 +42,20 @@ const client = new ApolloClient({
 })
 function App() {
   const [currentMachine, sendToMachine] = useMachine(appMachine);
+  const setUserData = useAppStore((state: any) => state?.setUserData);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem('userData') || '{}') as IUser;
+
+    if (user && token) {
+      setUserData({
+        ...user,
+        token: token
+      })
+    }
+
+  }, [])
   return (
     <QueryClientProvider client={queryClient}>
       <MachineContext.Provider value={[currentMachine, sendToMachine]}>
@@ -90,6 +107,13 @@ function App() {
                   <Protected>
                     <Layout>
                       <Messenger />
+                    </Layout>
+                  </Protected>
+                } />
+                <Route path={AppRouteContant.CHAT} element={
+                  <Protected>
+                    <Layout>
+                      <OneToOneChat />
                     </Layout>
                   </Protected>
                 } />

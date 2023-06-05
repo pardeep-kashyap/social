@@ -15,6 +15,7 @@ import Loader from '../../components/Loader/Loader';
 import { getAPICall } from '../../apiService';
 import { GOOGLE_SIGN } from '../../endPoints';
 import { AppRouteContant } from '../../constants';
+import { useAppStore } from '../../store/zustand';
 declare global {
     interface Window {
         google: any;
@@ -28,6 +29,7 @@ export default function SignIn() {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [signInUser, { data, error, loading }] = useMutation(SIGN_IN);
+    const setUserData = useAppStore((state: any) => state?.setUserData);
 
     function onClickHandler() {
         console.log("Sign in with Google button clicked...")
@@ -43,6 +45,7 @@ export default function SignIn() {
             console.log(error);
         }
     }
+
 
 
     React.useLayoutEffect(() => {
@@ -72,10 +75,16 @@ export default function SignIn() {
 
     }, []);
 
+
+
     const setLoginData = (data: any) => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data));
         localStorage.setItem("id", data.id);
+        setUserData({
+            ...data,
+            token: data.token
+        })
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
