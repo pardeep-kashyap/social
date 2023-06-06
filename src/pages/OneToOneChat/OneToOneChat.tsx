@@ -96,7 +96,7 @@ const OneToOneChat = () => {
     }
 
     const closeConversation = () => {
-        navigate(AppRouteContant.MESSAGE)
+        navigate(-1)
     }
 
 
