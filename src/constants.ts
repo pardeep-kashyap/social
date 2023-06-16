@@ -6,7 +6,7 @@ export const AppRouteContant = {
     NOTIFICATION: '/notification',
     POST_DETAIL: '/post',
     MESSAGE: '/message',
-    CHAT: '/chat/:id',
+    CHAT: '/chat/:id/:conversationId',
     SEARCH: '/search',
     REEL: '/reel',
     SETUP_PROFILE: '/setupProfile',

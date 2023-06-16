@@ -3,29 +3,27 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import EmojiModal from "../../components/EmojiModal/EmojiModal";
 import SendIcon from '@mui/icons-material/Send';
 import CancelIcon from '@mui/icons-material/Cancel';
-import './OneToOneChat.scss'
 import { useState, useRef, useEffect } from "react";
 import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
 import { IUser } from "../../types";
 import { toast } from "react-toastify";
 import { getAPICall, postAPICall } from "../../apiService";
 import { FETCH_CONVERSATION_MESSAGES, SEND_MESSAGE } from "../../endPoints";
-import { AppRouteContant } from "../../constants";
 import { useQuery } from "@apollo/client";
 import * as reactQuery from "react-query";
-
 import { GET_USER_BY_ID } from "../../gqlOperations/queries";
 import { useAppStore } from "../../store/zustand";
+import './OneToOneChat.scss'
+
 const OneToOneChat = () => {
     const [chatMessages, setMessages] = useState<any[]>([]);
-    const [selectedConversation, setselectedConversation] = useState<any>({});
     const [input, setInput] = useState<any>('');
     const wrapperRef = useRef(null);
     const chatRef = useRef<any>(null);
     const isClickOutSide = useOutsideAlerter(wrapperRef);
     const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate()
-    const { id } = useParams(); // Access the route parameter
+    const { id, conversationId } = useParams(); // Access the route parameter
     const { data: receiver, loading: profileLoading } = useQuery(GET_USER_BY_ID, {
         variables: { userid: id },
         fetchPolicy: 'no-cache'
@@ -36,11 +34,10 @@ const OneToOneChat = () => {
         refetchInterval: 5000,
         queryKey: ['messeger'],
         queryFn: () => getAPICall(
-            `${FETCH_CONVERSATION_MESSAGES}/${id}`, {}
+            `${FETCH_CONVERSATION_MESSAGES}/${id}/${conversationId}`, {}
         ),
         onSuccess: (data: any) => {
             setMessages(data.messages);
-            setselectedConversation(data._id);
             if (chatRef.current) {
                 chatRef.current.scrollTop = chatRef.current.scrollHeight;
             }
@@ -69,7 +66,7 @@ const OneToOneChat = () => {
             body: valueRef?.current?.value,
             sender: userData.id,
             receiver: receiver?.user?.id,
-            conversation: selectedConversation
+            conversation: conversationId
         }
         updateMessages(conversationPlayload);
         if (valueRef.current && userData.id) {
