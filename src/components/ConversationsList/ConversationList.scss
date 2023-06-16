@@ -20,11 +20,26 @@
         max-width: 100%;
     }
 
+    div {
+        margin: auto;
+    }
+
     .time {
-        font-size: 10px;
         color: #baadc6;
         padding-right: 8px;
-        margin-top: 8px
+        margin-top: 8px;
+        margin: auto;
+    }
+
+    .unread-count span {
+        margin: auto;
+        background: var(--theme);
+        color: var(--white);
+        padding: 2px 0;
+
+        padding-inline: 5px;
+        border-radius: 10px;
+        margin-right: var(--gutter);
     }
 
 }

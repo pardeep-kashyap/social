@@ -5,8 +5,6 @@ import { timeSinceText } from "../../util";
 import './ConversationList.scss';
 
 const ConversationsList = ({ conversations = [], onClick, selectedUser }: { conversations: IConversation[], onClick: any, selectedUser: IUser }) => {
-
-
     const getTime = useCallback((createdAt: string) => {
         return createdAt ? timeSinceText(new Date(createdAt)) : null
     }, [conversations])
@@ -24,7 +22,7 @@ const ConversationsList = ({ conversations = [], onClick, selectedUser }: { conv
         </div>
     }
     return <>
-        {conversations && conversations.length && <div className="chat-users">
+        {!!conversations?.length && <div className="chat-users">
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                 {conversations.map((conversation: IConversation, key: number) => {
                     const user: IUser = conversation.users[0]._id !== selectedUser.id ? conversation.users[0] : conversation.users[1];
@@ -42,16 +40,21 @@ const ConversationsList = ({ conversations = [], onClick, selectedUser }: { conv
                                         variant="body2"
                                         color="text.primary"
                                     >
-                                        {conversation.messages.length > 0 ? 'Message' : 'No Message'}
+                                        {conversation.messages.length > 0 ? conversation.messages[0].body : 'No Message'}
                                     </Typography>
                                 </React.Fragment>
                             }
                         >
 
                         </ListItemText>
+                        <div className="unread-count">
+                            {!!conversation.messages.length && (<span>{conversation.messages.length}   </span>)}
+                        </div>
+
                         <div className="time flex items-center	">
                             <span className="text">{getTime(conversation.createdAt)}</span>
                         </div>
+
                     </ListItem>
                 })}
             </List>
