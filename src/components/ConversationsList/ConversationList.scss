@@ -36,7 +36,8 @@
         background: var(--theme);
         color: var(--white);
         padding: 2px 0;
-
+        aspect-ratio: 1;
+        width: 20px;
         padding-inline: 5px;
         border-radius: 10px;
         margin-right: var(--gutter);
